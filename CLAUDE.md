@@ -74,27 +74,37 @@ Live tree (kept accurate as the project grows):
 
 ```
 my-website/
-├── AGENTS.md             # READ FIRST when touching Next.js — canonical docs in node_modules/next/dist/docs/
-├── CLAUDE.md             # this file
+├── AGENTS.md                   # READ FIRST when touching Next.js — canonical docs in node_modules/next/dist/docs/
+├── CLAUDE.md                   # this file
 ├── README.md
-├── .env                  # local secrets (no .env.example yet — add one when Supabase/Resend land)
-├── public/               # static assets (currently scaffold next.svg/vercel.svg — replace when home page is rewritten)
+├── .env                        # local secrets (no .env.example yet — add one when Supabase/Resend land)
+├── mdx-components is at src/   # see below
+├── public/                     # static assets (currently scaffold next.svg/vercel.svg — replace when home page is rewritten)
 ├── src/
-│   ├── app/              # App Router: routes, layouts, route handlers
-│   │   ├── layout.tsx
-│   │   ├── page.tsx      # still default Next scaffold
-│   │   └── globals.css   # Tailwind v4 entry + @theme tokens
-│   ├── components/       # reusable UI (PascalCase, one per file) — empty, ready
-│   │   └── ui/           # generic primitives: Button, Card, Input — empty, ready
-│   ├── lib/              # utilities + service clients (Supabase, Resend) — empty, ready
-│   └── types/            # shared TypeScript types — empty, ready
+│   ├── mdx-components.tsx      # required by @next/mdx App Router — global MDX component overrides
+│   ├── app/                    # App Router: routes, layouts, route handlers
+│   │   ├── layout.tsx          # root layout — font setup, global metadata template
+│   │   ├── page.tsx            # homepage placeholder
+│   │   ├── globals.css         # Tailwind v4 entry + @theme tokens
+│   │   ├── field-notes/
+│   │   │   ├── page.tsx        # Field Notes index
+│   │   │   └── [slug]/
+│   │   │       └── page.tsx    # individual note — dynamically imports MDX from src/content/field-notes/
+│   │   └── projects/
+│   │       ├── page.tsx        # Projects index
+│   │       └── [slug]/
+│   │           └── page.tsx    # individual project — dynamically imports MDX from src/content/projects/
+│   ├── content/                # MDX source files (one file per note/project, filename = slug)
+│   │   ├── field-notes/              # Field Notes — .mdx files, export metadata + default component
+│   │   └── projects/           # Projects — .mdx files, export metadata + default component
+│   ├── components/             # reusable UI (PascalCase, one per file) — empty, ready
+│   │   └── ui/                 # generic primitives: Button, Card, Input — empty, ready
+│   ├── lib/                    # utilities + service clients (Supabase, Resend) — empty, ready
+│   └── types/                  # shared TypeScript types — empty, ready
 └── (config: next.config.ts, eslint.config.mjs, postcss.config.mjs, tsconfig.json, package.json)
 ```
 
-The four empty `src/*` folders are the agreed skeleton — use them as the home for new code rather than inventing new top-level dirs.
-
 Add only when first needed:
-- `src/content/` — static essays, notes, copy
 - `src/config/` — site metadata, navigation, constants
 
 ## Conventions
@@ -120,8 +130,11 @@ Every page must be indexable and shareable:
 - Per-page `metadata` export (title, description, OG/Twitter)
 - Clean, descriptive URLs
 - Ship as little JS as possible — favor Server Components and static rendering
-- Structured sections that future essays/notes can slot into
+- Structured sections that future essays/field-notes can slot into
 
 ## Current State
 
-- Nothing has been created
+- Phase 1 scaffold complete: Next.js 16 + TypeScript + Tailwind v4 + MDX (`@next/mdx`) configured
+- All five route skeletons exist and build cleanly: `/`, `/field-notes`, `/field-notes/[slug]`, `/projects`, `/projects/[slug]`
+- Placeholder MDX content in `src/content/field-notes/hello-world.mdx` and `src/content/projects/getting-started.mdx`
+- Phase 2 (homepage) and Phase 3 (content pages) not yet built

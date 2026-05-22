@@ -21,7 +21,7 @@ A personal brand platform that turns social/search traffic into owned email subs
 ### Phase 1 — Scaffold
 
 - [x] Initialize Next.js + TypeScript + Tailwind v4
-- [ ] Configure MDX (`@next/mdx` or `next-mdx-remote`)
+- [x] Configure MDX (`@next/mdx`) — `next.config.ts`, `src/mdx-components.tsx`, placeholder content
 - [ ] Deploy to Vercel, connect custom domain
 - [ ] Verify Tailwind v4 `@theme` tokens are wired correctly
 
@@ -34,7 +34,7 @@ A personal brand platform that turns social/search traffic into owned email subs
 
 ### Phase 3 — Content
 
-- [ ] Field Notes index page (`/notes`) + individual note pages (`/notes/[slug]`)
+- [ ] Field Notes index page (`/field-notes`) + individual note pages (`/field-notes/[slug]`)
 - [ ] Projects index page (`/projects`) + individual project pages (`/projects/[slug]`)
 - [ ] Populate with initial content (at least 1–2 of each to ship non-empty)
 - [ ] Per-page `metadata` export on every route (title, description, OG, Twitter)

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ComponentType } from "react";
 import Link from "next/link";
 import { getFieldNoteSlugs, type FieldNoteMetadata } from "@/lib/get-field-notes";
+import { formatDate } from "@/lib/format-date";
 
 type MdxModule = {
   default: ComponentType;
@@ -47,40 +48,31 @@ export default async function NoteDetailPage({ params }: Props) {
   )) as MdxModule;
 
   return (
-    <main className="max-w-2xl mx-auto px-6 py-12">
+    <main className="max-w-2xl mx-auto px-6 py-16">
       <Link
         href="/field-notes"
-        className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-foreground transition-colors"
+        className="text-sm text-muted hover:text-foreground transition-colors"
       >
         ← Field Notes
       </Link>
 
-      <header className="mt-8 mb-10">
-        <p className="text-sm text-neutral-400 dark:text-neutral-500 font-mono">
+      <header className="mt-10 mb-12">
+        <span className="font-mono text-xs text-muted tracking-wide">
           {formatDate(metadata.date)}
-        </p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight">
+        </span>
+        <h1 className="mt-3 font-serif font-normal text-4xl md:text-5xl leading-tight">
           {metadata.title}
         </h1>
         {metadata.description && (
-          <p className="mt-3 text-neutral-500 dark:text-neutral-400 leading-relaxed">
+          <p className="mt-4 text-lg text-muted leading-relaxed">
             {metadata.description}
           </p>
         )}
       </header>
 
-      <article>
+      <article className="prose">
         <Note />
       </article>
     </main>
   );
-}
-
-function formatDate(date: string): string {
-  const [year, month, day] = date.split("-").map(Number);
-  return new Date(year, month - 1, day).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 }

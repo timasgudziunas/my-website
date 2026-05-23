@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import type { ComponentType } from "react";
 import Link from "next/link";
 import { getProjectSlugs, type ProjectMetadata } from "@/lib/get-projects";
+import { formatDate } from "@/lib/format-date";
+import ImagePlaceholder from "@/components/ImagePlaceholder";
+import EmailSignup from "@/components/EmailSignup";
 
 type MdxModule = {
   default: ComponentType;
@@ -18,12 +21,6 @@ const statusLabel: Record<ProjectMetadata["status"], string> = {
   paused: "Paused",
 };
 
-const statusClass: Record<ProjectMetadata["status"], string> = {
-  active: "text-green-600 dark:text-green-400",
-  completed: "text-neutral-400 dark:text-neutral-500",
-  paused: "text-neutral-400 dark:text-neutral-500",
-};
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const { metadata } = (await import(
@@ -31,17 +28,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   )) as MdxModule;
   return {
     title: metadata.title,
-    description: metadata.description,
+    description: metadata.summary,
     openGraph: {
       title: `${metadata.title} — Timas Gudziunas`,
-      description: metadata.description,
+      description: metadata.summary,
       url: `/projects/${slug}`,
       type: "article",
       publishedTime: metadata.date,
     },
     twitter: {
       title: `${metadata.title} — Timas Gudziunas`,
-      description: metadata.description,
+      description: metadata.summary,
     },
   };
 }
@@ -59,48 +56,86 @@ export default async function ProjectDetailPage({ params }: Props) {
   )) as MdxModule;
 
   return (
-    <main className="max-w-2xl mx-auto px-6 py-12">
-      <Link
-        href="/projects"
-        className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-foreground transition-colors"
-      >
-        ← Projects
-      </Link>
+    <main>
+      <div className="max-w-5xl mx-auto px-6 py-10">
+        <Link
+          href="/projects"
+          className="text-sm text-muted hover:text-foreground transition-colors"
+        >
+          ← Projects
+        </Link>
+      </div>
 
-      <header className="mt-8 mb-10">
-        <div className="flex items-center gap-2">
-          <span
-            className={`text-xs font-medium uppercase tracking-wide ${statusClass[metadata.status]}`}
-          >
-            {statusLabel[metadata.status]}
-          </span>
-          <span className="text-neutral-200 dark:text-neutral-700">·</span>
-          <span className="text-sm text-neutral-400 dark:text-neutral-500 font-mono">
-            {formatDate(metadata.date)}
-          </span>
-        </div>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight">
-          {metadata.title}
-        </h1>
-        {metadata.description && (
-          <p className="mt-3 text-neutral-500 dark:text-neutral-400 leading-relaxed">
-            {metadata.description}
+      <div className="max-w-5xl mx-auto px-6 pb-6">
+        <ImagePlaceholder label="project cover" aspectRatio="video" />
+      </div>
+
+      <div className="max-w-3xl mx-auto px-6 py-10">
+        <header className="mb-10">
+          <div className="flex items-center gap-3 flex-wrap">
+            <span className="font-mono text-xs text-muted tracking-wide">
+              {metadata.timelineDisplay}
+            </span>
+            <span className="text-border select-none">·</span>
+            <span className="text-xs text-muted">{statusLabel[metadata.status]}</span>
+          </div>
+
+          <h1 className="mt-4 font-serif font-normal text-4xl md:text-5xl leading-tight">
+            {metadata.title}
+          </h1>
+
+          <p className="mt-4 text-lg text-muted leading-relaxed">
+            {metadata.summary}
+          </p>
+
+          {metadata.tags.length > 0 && (
+            <div className="mt-5 flex gap-2 flex-wrap">
+              {metadata.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs text-muted border border-border px-2.5 py-1 rounded-full"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
+
+        <article className="prose">
+          <Project />
+        </article>
+
+        {metadata.links && metadata.links.length > 0 && (
+          <div className="mt-14 pt-8 border-t border-border">
+            <h2 className="font-mono text-xs text-muted tracking-widest uppercase mb-4">
+              Links & Resources
+            </h2>
+            <ul className="space-y-2">
+              {metadata.links.map(({ label, href }) => (
+                <li key={href}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-accent hover:opacity-75 transition-opacity underline underline-offset-2"
+                  >
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {metadata.dateUpdated && (
+          <p className="mt-10 text-xs text-muted font-mono">
+            Last updated {formatDate(metadata.dateUpdated)}
           </p>
         )}
-      </header>
+      </div>
 
-      <article>
-        <Project />
-      </article>
+      <EmailSignup />
     </main>
   );
-}
-
-function formatDate(date: string): string {
-  const [year, month, day] = date.split("-").map(Number);
-  return new Date(year, month - 1, day).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 }

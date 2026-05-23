@@ -3,27 +3,27 @@ import Link from "next/link";
 
 const components: MDXComponents = {
   h2: ({ children }) => (
-    <h2 className="text-xl font-semibold mt-8 mb-3">{children}</h2>
+    <h2 className="font-serif font-normal text-2xl mt-10 mb-3 text-foreground">
+      {children}
+    </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="text-base font-semibold mt-6 mb-2">{children}</h3>
+    <h3 className="font-serif font-normal text-xl mt-8 mb-2 text-foreground">
+      {children}
+    </h3>
   ),
   p: ({ children }) => (
-    <p className="leading-relaxed mb-4 text-neutral-700 dark:text-neutral-300">
-      {children}
-    </p>
+    <p className="leading-relaxed mb-4 text-foreground">{children}</p>
   ),
   ul: ({ children }) => (
-    <ul className="list-disc pl-5 mb-4 space-y-1 text-neutral-700 dark:text-neutral-300">
-      {children}
-    </ul>
+    <ul className="list-disc pl-5 mb-4 space-y-1">{children}</ul>
   ),
   ol: ({ children }) => (
-    <ol className="list-decimal pl-5 mb-4 space-y-1 text-neutral-700 dark:text-neutral-300">
-      {children}
-    </ol>
+    <ol className="list-decimal pl-5 mb-4 space-y-1">{children}</ol>
   ),
-  li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+  li: ({ children }) => (
+    <li className="leading-relaxed text-foreground">{children}</li>
+  ),
   a: ({ href = "#", children, ...props }) => {
     if (href.startsWith("http") || href.startsWith("//")) {
       return (
@@ -31,7 +31,7 @@ const components: MDXComponents = {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="underline underline-offset-2 hover:opacity-70 transition-opacity"
+          className="text-accent underline underline-offset-2 hover:opacity-75 transition-opacity"
           {...props}
         >
           {children}
@@ -41,7 +41,7 @@ const components: MDXComponents = {
     return (
       <Link
         href={href}
-        className="underline underline-offset-2 hover:opacity-70 transition-opacity"
+        className="text-accent underline underline-offset-2 hover:opacity-75 transition-opacity"
       >
         {children}
       </Link>
@@ -52,24 +52,22 @@ const components: MDXComponents = {
       return <code className={className}>{children}</code>;
     }
     return (
-      <code className="text-sm font-mono bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">
+      <code className="text-sm font-mono bg-surface px-1.5 py-0.5 rounded">
         {children}
       </code>
     );
   },
   pre: ({ children }) => (
-    <pre className="bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 overflow-x-auto text-sm mb-4 font-mono">
+    <pre className="bg-surface rounded-lg p-4 overflow-x-auto text-sm mb-4 font-mono">
       {children}
     </pre>
   ),
   blockquote: ({ children }) => (
-    <blockquote className="border-l-2 border-neutral-300 dark:border-neutral-600 pl-4 my-4 text-neutral-500 dark:text-neutral-400 italic">
+    <blockquote className="border-l-2 border-border pl-4 my-4 text-muted italic">
       {children}
     </blockquote>
   ),
-  hr: () => (
-    <hr className="border-neutral-200 dark:border-neutral-800 my-8" />
-  ),
+  hr: () => <hr className="border-border my-8" />,
   strong: ({ children }) => (
     <strong className="font-semibold">{children}</strong>
   ),

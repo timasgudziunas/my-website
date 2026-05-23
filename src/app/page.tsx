@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/HeroSection";
+import FieldNotesPreview from "@/components/FieldNotesPreview";
+import ProjectsPreview from "@/components/ProjectsPreview";
 import EmailSignup from "@/components/EmailSignup";
 
 const description =
@@ -24,6 +26,8 @@ export default function HomePage() {
   return (
     <main className="flex-1">
       <HeroSection />
+      <FieldNotesPreview />
+      <ProjectsPreview />
       <EmailSignup />
     </main>
   );

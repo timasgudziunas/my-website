@@ -97,15 +97,27 @@ my-website/
 │   ├── content/                # MDX source files (one file per note/project, filename = slug)
 │   │   ├── field-notes/              # Field Notes — .mdx files, export metadata + default component
 │   │   └── projects/           # Projects — .mdx files, export metadata + default component
-│   ├── components/             # reusable UI (PascalCase, one per file) — empty, ready
-│   │   └── ui/                 # generic primitives: Button, Card, Input — empty, ready
-│   ├── lib/                    # utilities + service clients (Supabase, Resend) — empty, ready
+│   ├── components/             # reusable UI (PascalCase, one per file)
+│   │   ├── ui/                 # generic primitives: Button, Card, Input — empty, ready
+│   │   ├── EmailSignup.tsx     # email capture form (client component, uses Resend server action)
+│   │   ├── FieldNoteCard.tsx   # single field note row — date, title, description
+│   │   ├── FieldNotesPreview.tsx # homepage section: fetches + renders latest 3 notes
+│   │   ├── HeroSection.tsx     # homepage hero — headline + intro video placeholder
+│   │   ├── ImagePlaceholder.tsx # aspect-ratio placeholder slot for images/video
+│   │   ├── ProjectCard.tsx     # single project card — cover image, timeline, tags, summary
+│   │   ├── ProjectsPreview.tsx # homepage section: fetches + renders latest 3 projects
+│   │   └── SiteNav.tsx         # global nav — name left, links right
+│   ├── lib/                    # utilities + service clients
+│   │   ├── format-date.ts      # shared date formatting utility
+│   │   ├── get-field-notes.ts  # FieldNoteMetadata type + getFieldNoteSlugs()
+│   │   ├── get-projects.ts     # ProjectMetadata type + getProjectSlugs()
+│   │   └── resend.ts           # Resend client
 │   └── types/                  # shared TypeScript types — empty, ready
 └── (config: next.config.ts, eslint.config.mjs, postcss.config.mjs, tsconfig.json, package.json)
 ```
 
 Add only when first needed:
-- `src/config/` — site metadata, navigation, constants
+- `src/config/` — site metadata, navigation, constants (already has `src/config/site.ts`)
 
 ## Conventions
 
@@ -132,9 +144,31 @@ Every page must be indexable and shareable:
 - Ship as little JS as possible — favor Server Components and static rendering
 - Structured sections that future essays/field-notes can slot into
 
+## Design System
+
+- **Fonts:** Fraunces (serif, variable `--font-fraunces`) for all headings; Geist Sans for body; Geist Mono for labels/captions
+- **Colors:** Warm palette via CSS variables in `globals.css` — light (`#F5F2ED` bg, `#1A1814` fg) / dark (`#111009` bg, `#E8E4DC` fg); both modes adapt automatically via `prefers-color-scheme`
+- **Color tokens:** `background`, `foreground`, `muted`, `border`, `surface`, `accent` — available as Tailwind utilities (`text-muted`, `bg-surface`, `border-border`, `text-accent`, etc.)
+- **Prose:** `.prose` wrapper class in `globals.css` for article reading pages; element styles live in `src/mdx-components.tsx`
+
+## ProjectMetadata Schema
+
+Fields available in project MDX frontmatter (`export const metadata = { ... }`):
+- `title` — project name
+- `summary` — one-line description (used in SEO + cards)
+- `coverImage?` — path to cover image (optional; `ImagePlaceholder` renders until set)
+- `timelineDisplay` — human-readable date range, e.g. `"Jan 2026 – Present"`
+- `date` — ISO date string for sorting, e.g. `"2026-01-15"`
+- `dateUpdated?` — ISO date of last update (optional)
+- `tags` — string array, e.g. `["hardware", "biomedical"]`
+- `links?` — `{ label: string; href: string }[]` — rendered as a resource list on the detail page
+- `status` — `"active" | "completed" | "paused"`
+
 ## Current State
 
-- Phase 1 scaffold complete: Next.js 16 + TypeScript + Tailwind v4 + MDX (`@next/mdx`) configured
-- All five route skeletons exist and build cleanly: `/`, `/field-notes`, `/field-notes/[slug]`, `/projects`, `/projects/[slug]`
-- Placeholder MDX content in `src/content/field-notes/hello-world.mdx` and `src/content/projects/getting-started.mdx`
-- Phase 2 (homepage) and Phase 3 (content pages) not yet built
+- Full visual redesign complete: Fraunces serif + warm neutral palette across all pages
+- All five routes built and styled: `/`, `/field-notes`, `/field-notes/[slug]`, `/projects`, `/projects/[slug]`
+- Homepage: Hero (large serif headline + intro video placeholder) → Field Notes preview → Projects preview → Email signup
+- Email capture: wired to Resend via server action (`src/app/email-signup-action.ts`)
+- Placeholder content in `src/content/field-notes/hello-world.mdx` and `src/content/projects/getting-started.mdx`
+- Next up: replace placeholder MDX with real content; swap `ImagePlaceholder` with actual `next/image` when photos are ready; add intro video embed

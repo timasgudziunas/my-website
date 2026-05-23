@@ -3,8 +3,13 @@ import path from "path";
 
 export type ProjectMetadata = {
   title: string;
-  description: string;
+  summary: string;
+  coverImage?: string;
+  timelineDisplay: string;
   date: string;
+  dateUpdated?: string;
+  tags: string[];
+  links?: { label: string; href: string }[];
   status: "active" | "completed" | "paused";
 };
 

@@ -10,7 +10,6 @@ A personal brand platform that turns social/search traffic into owned email subs
 - **TypeScript**
 - **Tailwind CSS v4** — CSS-first config via `@theme` in `globals.css`, no `tailwind.config.js`
 - **MDX** — for Field Notes and Project pages (content as code, co-located with components)
-- **Supabase** — email storage (not yet installed)
 - **Resend** — transactional + broadcast email (not yet installed)
 - **Vercel** — deployment target with custom domain
 
@@ -22,15 +21,15 @@ A personal brand platform that turns social/search traffic into owned email subs
 
 - [x] Initialize Next.js + TypeScript + Tailwind v4
 - [x] Configure MDX (`@next/mdx`) — `next.config.ts`, `src/mdx-components.tsx`, placeholder content
-- [ ] Deploy to Vercel, connect custom domain
-- [ ] Verify Tailwind v4 `@theme` tokens are wired correctly
+- [x] Deploy to Vercel, connect custom domain
+- [x] Verify Tailwind v4 `@theme` tokens are wired correctly
 
 ### Phase 2 — Homepage
 
-- [ ] Hero section with positioning statement ("early to an unfolding journey" feel)
-- [ ] Navigation (minimal — no nav until there are pages to link to)
+- [x] Hero section with positioning statement ("early to an unfolding journey" feel)
+- [x] Navigation (minimal — no nav until there are pages to link to)
 - [ ] Intro video embed (lazy-loaded, no third-party scripts that hurt CWV)
-- [ ] Email capture CTA (static form UI first, wired in Phase 4)
+- [x] Email capture CTA (static form UI first, wired in Phase 4)
 
 ### Phase 3 — Content
 
@@ -41,7 +40,6 @@ A personal brand platform that turns social/search traffic into owned email subs
 
 ### Phase 4 — Email
 
-- [ ] Install and configure Supabase client (`src/lib/supabase.ts`)
 - [ ] Install and configure Resend client (`src/lib/resend.ts`)
 - [ ] Server Action for email capture (`src/app/email-signup-action.ts`)
 - [ ] Wire form to action with success/error state (client component)

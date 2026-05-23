@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
+import HeroSection from "@/components/HeroSection";
+import EmailSignup from "@/components/EmailSignup";
 
 export const metadata: Metadata = {
   title: "Timas Gudziunas",
-  description: "Documenting an entrepreneurial journey in public.",
+  description:
+    "Biomedical engineer building ambitious projects in public to foster lifelong learning and a more curious future.",
 };
 
 export default function HomePage() {
   return (
-    <main>
-      <h1>Homepage — coming soon</h1>
+    <main className="flex-1">
+      <HeroSection />
+      <EmailSignup />
     </main>
   );
 }

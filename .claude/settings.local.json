@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(npm install *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(vercel *)",
+      "Bash(nslookup *)",
+      "Bash(curl -sI https://timasgudziunas.com)"
     ]
   }
 }

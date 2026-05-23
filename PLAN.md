@@ -40,10 +40,10 @@ A personal brand platform that turns social/search traffic into owned email subs
 
 ### Phase 4 — Email
 
-- [ ] Install and configure Resend client (`src/lib/resend.ts`)
-- [ ] Server Action for email capture (`src/app/email-signup-action.ts`)
-- [ ] Wire form to action with success/error state (client component)
-- [ ] Add `.env.example` once keys are known
+- [x] Install and configure Resend client (`src/lib/resend.ts`)
+- [x] Server Action for email capture (`src/app/email-signup-action.ts`)
+- [x] Wire form to action with success/error state (client component)
+- [x] Add `.env.example` once keys are known
 
 ### Phase 5 — Polish
 

@@ -33,10 +33,10 @@ A personal brand platform that turns social/search traffic into owned email subs
 
 ### Phase 3 — Content
 
-- [ ] Field Notes index page (`/field-notes`) + individual note pages (`/field-notes/[slug]`)
-- [ ] Projects index page (`/projects`) + individual project pages (`/projects/[slug]`)
+- [x] Field Notes index page (`/field-notes`) + individual note pages (`/field-notes/[slug]`)
+- [x] Projects index page (`/projects`) + individual project pages (`/projects/[slug]`)
 - [ ] Populate with initial content (at least 1–2 of each to ship non-empty)
-- [ ] Per-page `metadata` export on every route (title, description, OG, Twitter)
+- [x] Per-page `metadata` export on every route (title, description, OG, Twitter)
 
 ### Phase 4 — Email
 

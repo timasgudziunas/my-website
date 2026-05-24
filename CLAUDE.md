@@ -104,6 +104,7 @@ my-website/
 │   │   ├── FieldNotesPreview.tsx # homepage section: fetches + renders latest 3 notes
 │   │   ├── HeroSection.tsx     # homepage hero — headline + intro video placeholder
 │   │   ├── ImagePlaceholder.tsx # aspect-ratio placeholder slot for images/video
+│   │   ├── LatelySection.tsx   # homepage section: Building, Thinking About, Reading, Current Obsession
 │   │   ├── ProjectCard.tsx     # single project card — cover image, timeline, tags, summary
 │   │   ├── ProjectsPreview.tsx # homepage section: fetches + renders latest 3 projects
 │   │   └── SiteNav.tsx         # global nav — name left, links right
@@ -117,7 +118,7 @@ my-website/
 ```
 
 Add only when first needed:
-- `src/config/` — site metadata, navigation, constants (already has `src/config/site.ts`)
+- `src/config/` — site metadata, navigation, constants (has `src/config/site.ts` and `src/config/lately.ts`)
 
 ## Conventions
 
@@ -168,7 +169,7 @@ Fields available in project MDX frontmatter (`export const metadata = { ... }`):
 
 - Full visual redesign complete: Fraunces serif + warm neutral palette across all pages
 - All five routes built and styled: `/`, `/field-notes`, `/field-notes/[slug]`, `/projects`, `/projects/[slug]`
-- Homepage: Hero (large serif headline + intro video placeholder) → Field Notes preview → Projects preview → Email signup
+- Homepage: Hero (large serif headline + intro video placeholder) → Lately section → Field Notes preview → Projects preview → Email signup
 - Email capture: wired to Resend via server action (`src/app/email-signup-action.ts`)
 - Placeholder content in `src/content/field-notes/hello-world.mdx` and `src/content/projects/getting-started.mdx`
 - Next up: replace placeholder MDX with real content; swap `ImagePlaceholder` with actual `next/image` when photos are ready; add intro video embed

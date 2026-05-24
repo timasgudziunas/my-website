@@ -45,6 +45,16 @@ A personal brand platform that turns social/search traffic into owned email subs
 - [x] Wire form to action with success/error state (client component)
 - [x] Add `.env.example` once keys are known
 
+### Phase 4.5 — Lately Section
+
+- [x] `src/config/lately.ts` — typed config with all four fields; update this file to change content
+- [x] `LatelySection` component — 2-column responsive grid (stacked on mobile), placed on homepage after hero, before Field Notes
+- [x] **Building** — project title + short description
+- [x] **Thinking About** — list of open-ended questions/ideas, each with a left-border accent
+- [x] **Reading** — book title, author, cover image slot (swap `ImagePlaceholder` for real cover when ready)
+- [x] **Current Obsession** — description text + photo slot (swap `ImagePlaceholder` for real photo when ready)
+- [x] "Past reads →" inline link below Reading, pointing to `/past-reads` (page not yet built)
+
 ### Phase 5 — Polish
 
 - [ ] SEO: sitemap, robots.txt, structured data where relevant

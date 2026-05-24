@@ -52,7 +52,7 @@ Before adding anything, ask: does this directly support email capture, trust, or
 - MDX (via `@next/mdx` or `contentlayer`) — content layer for Field Notes (articles) and Projects; files live in `/content`
 - Tailwind CSS v4 — CSS-first config in `src/app/globals.css` via `@theme`; **no `tailwind.config.js`**
 - Vercel — deployment target
-- Resend — *planned, not yet installed* (transactional + broadcast email)
+- Resend — installed; client in `src/lib/resend.ts`, server action in `src/app/email-signup-action.ts` (transactional + broadcast email)
 - Supabase — *planned, not yet installed* (overkill right now, maybe later)
 
 When wiring Supabase/Resend, install and create their clients in `src/lib/` and read keys from env vars — don't hardcode anything.
@@ -78,47 +78,52 @@ my-website/
 ├── CLAUDE.md                   # this file
 ├── README.md
 ├── .env                        # local secrets (no .env.example yet — add one when Supabase/Resend land)
-├── mdx-components is at src/   # see below
-├── public/                     # static assets (currently scaffold next.svg/vercel.svg — replace when home page is rewritten)
-├── src/
-│   ├── mdx-components.tsx      # required by @next/mdx App Router — global MDX component overrides
-│   ├── app/                    # App Router: routes, layouts, route handlers
-│   │   ├── layout.tsx          # root layout — font setup, global metadata template
-│   │   ├── page.tsx            # homepage placeholder
-│   │   ├── globals.css         # Tailwind v4 entry + @theme tokens
-│   │   ├── field-notes/
-│   │   │   ├── page.tsx        # Field Notes index
-│   │   │   └── [slug]/
-│   │   │       └── page.tsx    # individual note — dynamically imports MDX from src/content/field-notes/
-│   │   └── projects/
-│   │       ├── page.tsx        # Projects index
-│   │       └── [slug]/
-│   │           └── page.tsx    # individual project — dynamically imports MDX from src/content/projects/
-│   ├── content/                # MDX source files (one file per note/project, filename = slug)
-│   │   ├── field-notes/              # Field Notes — .mdx files, export metadata + default component
-│   │   └── projects/           # Projects — .mdx files, export metadata + default component
-│   ├── components/             # reusable UI (PascalCase, one per file)
-│   │   ├── ui/                 # generic primitives: Button, Card, Input — empty, ready
-│   │   ├── EmailSignup.tsx     # email capture form (client component, uses Resend server action)
-│   │   ├── FieldNoteCard.tsx   # single field note row — date, title, description
-│   │   ├── FieldNotesPreview.tsx # homepage section: fetches + renders latest 3 notes
-│   │   ├── HeroSection.tsx     # homepage hero — headline + intro video placeholder
-│   │   ├── ImagePlaceholder.tsx # aspect-ratio placeholder slot for images/video
-│   │   ├── LatelySection.tsx   # homepage section: Building, Thinking About, Reading, Current Obsession
-│   │   ├── ProjectCard.tsx     # single project card — cover image, timeline, tags, summary
-│   │   ├── ProjectsPreview.tsx # homepage section: fetches + renders latest 3 projects
-│   │   └── SiteNav.tsx         # global nav — name left, links right
-│   ├── lib/                    # utilities + service clients
-│   │   ├── format-date.ts      # shared date formatting utility
-│   │   ├── get-field-notes.ts  # FieldNoteMetadata type + getFieldNoteSlugs()
-│   │   ├── get-projects.ts     # ProjectMetadata type + getProjectSlugs()
-│   │   └── resend.ts           # Resend client
-│   └── types/                  # shared TypeScript types — empty, ready
-└── (config: next.config.ts, eslint.config.mjs, postcss.config.mjs, tsconfig.json, package.json)
+├── public/                     # static assets
+│   ├── tg-logo-dark.png        # favicon — dark mode
+│   ├── tg-logo-light.png       # favicon — light mode
+│   ├── next.svg
+│   └── vercel.svg
+└── src/
+    ├── mdx-components.tsx      # required by @next/mdx App Router — global MDX component overrides
+    ├── app/                    # App Router: routes, layouts, route handlers
+    │   ├── layout.tsx          # root layout — font setup, global metadata template
+    │   ├── page.tsx            # homepage
+    │   ├── globals.css         # Tailwind v4 entry + @theme tokens
+    │   ├── email-signup-action.ts  # Resend server action — handles email list subscribe
+    │   ├── field-notes/
+    │   │   ├── page.tsx        # Field Notes index
+    │   │   └── [slug]/
+    │   │       └── page.tsx    # individual note — dynamically imports MDX from src/content/field-notes/
+    │   └── projects/
+    │       ├── page.tsx        # Projects index
+    │       └── [slug]/
+    │           └── page.tsx    # individual project — dynamically imports MDX from src/content/projects/
+    ├── content/                # MDX source files (one file per note/project, filename = slug)
+    │   ├── field-notes/        # Field Notes — .mdx files, export metadata + default component
+    │   └── projects/           # Projects — .mdx files, export metadata + default component
+    ├── components/             # reusable UI (PascalCase, one per file)
+    │   ├── ui/                 # generic primitives: Button, Card, Input — empty, ready
+    │   ├── EmailSignup.tsx     # email capture form (client component, calls email-signup-action)
+    │   ├── FieldNoteCard.tsx   # single field note row — date, title, description
+    │   ├── FieldNotesPreview.tsx # homepage section: fetches + renders latest 3 notes
+    │   ├── HeroSection.tsx     # homepage hero — headline + intro video placeholder
+    │   ├── ImagePlaceholder.tsx # aspect-ratio placeholder slot for images/video
+    │   ├── LatelySection.tsx   # homepage section: Building, Thinking About, Reading, Current Obsession
+    │   ├── ProjectCard.tsx     # single project card — cover image, timeline, tags, summary
+    │   ├── ProjectsPreview.tsx # homepage section: fetches + renders latest 3 projects
+    │   ├── RefreshedLabel.tsx  # "refreshed" badge/label component
+    │   └── SiteNav.tsx         # global nav — name left, links right
+    ├── config/                 # site-wide constants
+    │   ├── site.ts             # metadata, nav links, site-level config
+    │   └── lately.ts           # data for the Lately section (Building, Reading, etc.)
+    ├── lib/                    # utilities + service clients
+    │   ├── format-date.ts      # shared date formatting utility
+    │   ├── get-field-notes.ts  # FieldNoteMetadata type + getFieldNoteSlugs()
+    │   ├── get-projects.ts     # ProjectMetadata type + getProjectSlugs()
+    │   └── resend.ts           # Resend client
+    └── types/                  # shared TypeScript types — empty, ready
+(config: next.config.ts, eslint.config.mjs, postcss.config.mjs, tsconfig.json, package.json)
 ```
-
-Add only when first needed:
-- `src/config/` — site metadata, navigation, constants (has `src/config/site.ts` and `src/config/lately.ts`)
 
 ## Conventions
 

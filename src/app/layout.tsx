@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   icons: {
     icon: [
-      { url: "/icon-light.png", media: "(prefers-color-scheme: light)" },
-      { url: "/icon-dark.png", media: "(prefers-color-scheme: dark)" },
+      { url: "/tg-logo-light.png?v=2", media: "(prefers-color-scheme: light)" },
+      { url: "/tg-logo-dark.png?v=2", media: "(prefers-color-scheme: dark)" },
     ],
   },
   openGraph: {

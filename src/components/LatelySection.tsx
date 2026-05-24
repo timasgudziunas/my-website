@@ -1,12 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import ImagePlaceholder from "./ImagePlaceholder";
+import RefreshedLabel from "./RefreshedLabel";
 import { lately } from "@/config/lately";
 
 export default function LatelySection() {
   return (
     <section className="px-6 py-16 max-w-5xl mx-auto border-t border-border">
-      <h2 className="font-serif font-normal text-3xl mb-10">Lately</h2>
+      <div className="flex items-baseline justify-between mb-10">
+        <h2 className="font-serif font-normal text-3xl">Lately</h2>
+        <RefreshedLabel date={lately.lastRefreshed} />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         {/* Building */}
@@ -37,6 +41,32 @@ export default function LatelySection() {
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* Current Obsession */}
+        <div>
+          <span className="font-mono text-xs text-muted tracking-widest uppercase">
+            Current Obsession
+          </span>
+          <div className="mt-3">
+            {lately.currentObsession.photo ? (
+              <div className="relative w-full aspect-video mb-3 rounded-xl overflow-hidden">
+                <Image
+                  src={lately.currentObsession.photo}
+                  alt="current obsession"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <div className="mb-3">
+                <ImagePlaceholder label="photo" aspectRatio="video" />
+              </div>
+            )}
+            <p className="text-sm text-muted leading-relaxed">
+              {lately.currentObsession.description}
+            </p>
+          </div>
         </div>
 
         {/* Reading */}
@@ -71,32 +101,6 @@ export default function LatelySection() {
           >
             Past reads →
           </Link>
-        </div>
-
-        {/* Current Obsession */}
-        <div>
-          <span className="font-mono text-xs text-muted tracking-widest uppercase">
-            Current Obsession
-          </span>
-          <div className="mt-3">
-            {lately.currentObsession.photo ? (
-              <div className="relative w-full aspect-video mb-3 rounded-xl overflow-hidden">
-                <Image
-                  src={lately.currentObsession.photo}
-                  alt="current obsession"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ) : (
-              <div className="mb-3">
-                <ImagePlaceholder label="photo" aspectRatio="video" />
-              </div>
-            )}
-            <p className="text-sm text-muted leading-relaxed">
-              {lately.currentObsession.description}
-            </p>
-          </div>
         </div>
       </div>
     </section>

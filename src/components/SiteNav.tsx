@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function SiteNav() {
   return (
-    <header className="px-6 py-6 flex items-center justify-between border-b border-border">
+    <header className="sticky top-0 z-50 px-6 py-[15px] flex items-center justify-between border-b border-border bg-background">
       <Link
         href="/"
         className="font-serif text-base hover:opacity-60 transition-opacity"

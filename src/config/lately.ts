@@ -1,4 +1,5 @@
 export type LatelyConfig = {
+  lastRefreshed: string;
   building: {
     title: string;
     description: string;
@@ -16,6 +17,7 @@ export type LatelyConfig = {
 };
 
 export const lately: LatelyConfig = {
+  lastRefreshed: "2026-05-24",
   building: {
     title: "A biomedical sensing device",
     description:

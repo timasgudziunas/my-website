@@ -26,6 +26,12 @@ export const metadata: Metadata = {
     default: "Timas Gudziunas",
   },
   description: siteConfig.description,
+  icons: {
+    icon: [
+      { url: "/icon-light.png", media: "(prefers-color-scheme: light)" },
+      { url: "/icon-dark.png", media: "(prefers-color-scheme: dark)" },
+    ],
+  },
   openGraph: {
     siteName: siteConfig.name,
     locale: "en_US",

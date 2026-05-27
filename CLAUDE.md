@@ -106,7 +106,7 @@ my-website/
     │   ├── EmailSignup.tsx     # email capture form (client component, calls email-signup-action)
     │   ├── FieldNoteCard.tsx   # single field note row — date, title, description
     │   ├── FieldNotesPreview.tsx # homepage section: fetches + renders latest 3 notes
-    │   ├── HeroSection.tsx     # homepage hero — headline + intro video placeholder
+    │   ├── HeroSection.tsx     # homepage hero — full-viewport video bg, scroll-driven fade (Framer Motion)
     │   ├── ImagePlaceholder.tsx # aspect-ratio placeholder slot for images/video
     │   ├── LatelySection.tsx   # homepage section: Building, Thinking About, Reading, Current Obsession
     │   ├── ProjectCard.tsx     # single project card — cover image, timeline, tags, summary

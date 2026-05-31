@@ -13,22 +13,22 @@ export default function ProjectCard({ slug, metadata }: Props) {
       <ImagePlaceholder label="project cover" aspectRatio="video" />
       <div className="mt-4">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-mono text-xs text-muted tracking-wide">
+          <span className="font-mono text-[10px] text-muted tracking-[0.15em] uppercase">
             {metadata.timelineDisplay}
           </span>
           {metadata.tags.slice(0, 2).map((tag) => (
             <span
               key={tag}
-              className="text-xs text-muted border border-border px-2 py-0.5 rounded-full"
+              className="font-mono text-[10px] tracking-[0.12em] uppercase text-warm border border-border-warm px-3 py-1 rounded-[2px]"
             >
               {tag}
             </span>
           ))}
         </div>
-        <h3 className="mt-2 font-serif font-normal text-xl leading-snug group-hover:text-accent transition-colors">
+        <h3 className="mt-2 font-display font-light text-xl leading-snug group-hover:text-warm transition-colors duration-300">
           {metadata.title}
         </h3>
-        <p className="mt-1.5 text-sm text-muted leading-relaxed line-clamp-2">
+        <p className="mt-1.5 font-body text-sm italic text-muted leading-[1.75] line-clamp-2">
           {metadata.summary}
         </p>
       </div>

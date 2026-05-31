@@ -15,7 +15,14 @@
       "Bash(Move-Item *)",
       "PowerShell(Move-Item *)",
       "PowerShell(Rename-Item *)",
-      "Bash(Copy-Item *)"
+      "Bash(Copy-Item *)",
+      "Bash(Remove-Item *)",
+      "Bash(ffprobe -v quiet -print_format json -show_streams \"C:\\\\Users\\\\Timas Gudziunas\\\\projects\\\\my-website\\\\public\\\\hero-scroll-1.mp4\")",
+      "Bash(Select-String -Pattern \"duration|width|height|r_frame_rate\")",
+      "Bash(Select-Object -First 10)",
+      "PowerShell($file = \"C:\\\\Users\\\\Timas Gudziunas\\\\projects\\\\my-website\\\\public\\\\hero-scroll-1.mp4\"; [System.IO.FileInfo]::new\\($file\\).Length / 1MB | ForEach-Object { \"{0:N1} MB\" -f $_ })",
+      "PowerShell(node -e \"const fs = require\\('fs'\\); const buf = fs.readFileSync\\('C:/Users/Timas Gudziunas/projects/my-website/public/hero-scroll-1.mp4'\\); console.log\\('Size:', \\(buf.length/1024/1024\\).toFixed\\(1\\)+'MB'\\);\")",
+      "Bash(npm uninstall *)"
     ]
   }
 }

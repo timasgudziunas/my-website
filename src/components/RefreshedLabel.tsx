@@ -22,6 +22,8 @@ export default function RefreshedLabel({ date }: { date: string }) {
   if (!label) return null;
 
   return (
-    <span className="font-mono text-xs text-muted tracking-wide">{label}</span>
+    <span className="font-mono text-[10px] text-subtle tracking-[0.15em] uppercase">
+      {label}
+    </span>
   );
 }

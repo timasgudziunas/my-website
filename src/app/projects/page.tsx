@@ -38,12 +38,16 @@ export default async function ProjectsIndexPage() {
   return (
     <main className="max-w-5xl mx-auto px-6 py-16">
       <header className="mb-14">
-        <h1 className="font-serif font-normal text-5xl">Projects</h1>
-        <p className="mt-4 text-muted leading-relaxed max-w-md">{description}</p>
+        <h1 className="font-display font-light text-5xl text-primary">Projects</h1>
+        <p className="mt-4 font-body italic text-muted leading-[1.75] max-w-md">
+          {description}
+        </p>
       </header>
 
       {projects.length === 0 ? (
-        <p className="text-sm text-muted">Nothing here yet. Check back soon.</p>
+        <p className="font-body text-sm italic text-muted">
+          Nothing here yet. Check back soon.
+        </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {projects.map(({ slug, metadata: projectMeta }) => (

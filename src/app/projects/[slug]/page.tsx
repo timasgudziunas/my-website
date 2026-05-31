@@ -16,9 +16,9 @@ type Props = {
 };
 
 const statusLabel: Record<ProjectMetadata["status"], string> = {
-  active: "Active",
+  active:    "Active",
   completed: "Completed",
-  paused: "Paused",
+  paused:    "Paused",
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -60,7 +60,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       <div className="max-w-5xl mx-auto px-6 py-10">
         <Link
           href="/projects"
-          className="text-sm text-muted hover:text-foreground transition-colors"
+          className="font-mono text-[11px] tracking-[0.1em] uppercase text-subtle hover:text-warm transition-colors duration-300"
         >
           ← Projects
         </Link>
@@ -73,18 +73,20 @@ export default async function ProjectDetailPage({ params }: Props) {
       <div className="max-w-3xl mx-auto px-6 py-10">
         <header className="mb-10">
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="font-mono text-xs text-muted tracking-wide">
+            <span className="font-mono text-[10px] text-muted tracking-[0.15em] uppercase">
               {metadata.timelineDisplay}
             </span>
-            <span className="text-border select-none">·</span>
-            <span className="text-xs text-muted">{statusLabel[metadata.status]}</span>
+            <span className="text-subtle select-none">·</span>
+            <span className="font-mono text-[10px] text-muted tracking-[0.15em] uppercase">
+              {statusLabel[metadata.status]}
+            </span>
           </div>
 
-          <h1 className="mt-4 font-serif font-normal text-4xl md:text-5xl leading-tight">
+          <h1 className="mt-4 font-display font-light text-4xl md:text-5xl text-primary leading-tight">
             {metadata.title}
           </h1>
 
-          <p className="mt-4 text-lg text-muted leading-relaxed">
+          <p className="mt-4 font-body italic text-lg text-muted leading-[1.75]">
             {metadata.summary}
           </p>
 
@@ -93,7 +95,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               {metadata.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs text-muted border border-border px-2.5 py-1 rounded-full"
+                  className="font-mono text-[10px] tracking-[0.12em] uppercase text-warm border border-border-warm px-3 py-1 rounded-[2px]"
                 >
                   {tag}
                 </span>
@@ -108,7 +110,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
         {metadata.links && metadata.links.length > 0 && (
           <div className="mt-14 pt-8 border-t border-border">
-            <h2 className="font-mono text-xs text-muted tracking-widest uppercase mb-4">
+            <h2 className="font-mono text-[10px] text-warm tracking-[0.2em] uppercase mb-4">
               Links & Resources
             </h2>
             <ul className="space-y-2">
@@ -118,9 +120,9 @@ export default async function ProjectDetailPage({ params }: Props) {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-accent hover:opacity-75 transition-opacity underline underline-offset-2"
+                    className="font-mono text-[11px] tracking-[0.1em] uppercase text-subtle hover:text-warm transition-colors duration-300 underline underline-offset-2"
                   >
-                    {label}
+                    {label} →
                   </a>
                 </li>
               ))}
@@ -129,7 +131,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         )}
 
         {metadata.dateUpdated && (
-          <p className="mt-10 text-xs text-muted font-mono">
+          <p className="mt-10 font-mono text-[10px] text-subtle tracking-[0.1em] uppercase">
             Last updated {formatDate(metadata.dateUpdated)}
           </p>
         )}

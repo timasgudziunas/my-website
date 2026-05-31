@@ -51,20 +51,20 @@ export default async function NoteDetailPage({ params }: Props) {
     <main className="max-w-2xl mx-auto px-6 py-16">
       <Link
         href="/field-notes"
-        className="text-sm text-muted hover:text-foreground transition-colors"
+        className="font-mono text-[11px] tracking-[0.1em] uppercase text-subtle hover:text-warm transition-colors duration-300"
       >
         ← Field Notes
       </Link>
 
       <header className="mt-10 mb-12">
-        <span className="font-mono text-xs text-muted tracking-wide">
+        <span className="font-mono text-[10px] text-muted tracking-[0.15em] uppercase">
           {formatDate(metadata.date)}
         </span>
-        <h1 className="mt-3 font-serif font-normal text-4xl md:text-5xl leading-tight">
+        <h1 className="mt-3 font-display font-light text-4xl md:text-5xl text-primary leading-tight">
           {metadata.title}
         </h1>
         {metadata.description && (
-          <p className="mt-4 text-lg text-muted leading-relaxed">
+          <p className="mt-4 font-body italic text-lg text-muted leading-[1.75]">
             {metadata.description}
           </p>
         )}

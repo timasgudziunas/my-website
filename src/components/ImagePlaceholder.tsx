@@ -5,10 +5,10 @@ type Props = {
 };
 
 const ratioClass: Record<NonNullable<Props["aspectRatio"]>, string> = {
-  video: "aspect-video",
-  square: "aspect-square",
+  video:   "aspect-video",
+  square:  "aspect-square",
   portrait: "aspect-[3/4]",
-  wide: "aspect-[21/9]",
+  wide:    "aspect-[21/9]",
 };
 
 export default function ImagePlaceholder({
@@ -18,9 +18,9 @@ export default function ImagePlaceholder({
 }: Props) {
   return (
     <div
-      className={`${ratioClass[aspectRatio]} w-full bg-surface rounded-xl flex items-center justify-center ${className}`}
+      className={`${ratioClass[aspectRatio]} w-full bg-surface rounded-[2px] flex items-center justify-center ${className}`}
     >
-      <span className="font-mono text-xs text-muted tracking-widest uppercase select-none">
+      <span className="font-mono text-[10px] text-subtle tracking-[0.2em] uppercase select-none">
         [ {label} ]
       </span>
     </div>

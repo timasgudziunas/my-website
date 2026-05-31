@@ -23,16 +23,16 @@ export default async function FieldNotesPreview() {
   return (
     <section className="px-6 py-16 max-w-5xl mx-auto border-t border-border">
       <div className="flex items-baseline justify-between mb-10">
-        <h2 className="font-serif font-normal text-3xl">Field Notes</h2>
+        <h2 className="font-display font-light text-3xl text-primary">Field Notes</h2>
         <Link
           href="/field-notes"
-          className="text-sm text-muted hover:text-foreground transition-colors"
+          className="font-mono text-[11px] tracking-[0.1em] uppercase text-subtle hover:text-warm transition-colors duration-300"
         >
           All notes →
         </Link>
       </div>
       {latest.length === 0 ? (
-        <p className="text-sm text-muted">Nothing published yet.</p>
+        <p className="font-body text-sm italic text-muted">Nothing published yet.</p>
       ) : (
         <ul className="space-y-8">
           {latest.map(({ slug, metadata }) => (

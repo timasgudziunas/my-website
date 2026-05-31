@@ -39,12 +39,16 @@ export default async function NotesIndexPage() {
   return (
     <main className="max-w-3xl mx-auto px-6 py-16">
       <header className="mb-14">
-        <h1 className="font-serif font-normal text-5xl">Field Notes</h1>
-        <p className="mt-4 text-muted leading-relaxed max-w-md">{description}</p>
+        <h1 className="font-display font-light text-5xl text-primary">Field Notes</h1>
+        <p className="mt-4 font-body italic text-muted leading-[1.75] max-w-md">
+          {description}
+        </p>
       </header>
 
       {notes.length === 0 ? (
-        <p className="text-sm text-muted">Nothing published yet. Check back soon.</p>
+        <p className="font-body text-sm italic text-muted">
+          Nothing published yet. Check back soon.
+        </p>
       ) : (
         <ul className="space-y-10">
           {notes.map(({ slug, metadata: noteMeta }) => (

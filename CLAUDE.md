@@ -106,13 +106,14 @@ my-website/
     │   ├── EmailSignup.tsx     # email capture form (client component, calls email-signup-action)
     │   ├── FieldNoteCard.tsx   # single field note row — date, title, description
     │   ├── FieldNotesPreview.tsx # homepage section: fetches + renders latest 3 notes
-    │   ├── HeroSection.tsx     # homepage hero — full-viewport video bg, scroll-driven fade (Framer Motion)
+    │   ├── HeroSection.tsx     # homepage hero — static text section (eyebrow, display heading, body copy)
     │   ├── ImagePlaceholder.tsx # aspect-ratio placeholder slot for images/video
     │   ├── LatelySection.tsx   # homepage section: Building, Thinking About, Reading, Current Obsession
     │   ├── ProjectCard.tsx     # single project card — cover image, timeline, tags, summary
     │   ├── ProjectsPreview.tsx # homepage section: fetches + renders latest 3 projects
     │   ├── RefreshedLabel.tsx  # "refreshed" badge/label component
-    │   └── SiteNav.tsx         # global nav — name left, links right
+    │   ├── SiteNav.tsx         # global nav — name left, links + ThemeToggle right
+    │   └── ThemeToggle.tsx     # dark/light toggle button (client) — stores pref in localStorage
     ├── config/                 # site-wide constants
     │   ├── site.ts             # metadata, nav links, site-level config
     │   └── lately.ts           # data for the Lately section (Building, Reading, etc.)
@@ -152,10 +153,17 @@ Every page must be indexable and shareable:
 
 ## Design System
 
-- **Fonts:** Fraunces (serif, variable `--font-fraunces`) for all headings; Geist Sans for body; Geist Mono for labels/captions
-- **Colors:** Warm palette via CSS variables in `globals.css` — light (`#F5F2ED` bg, `#1A1814` fg) / dark (`#111009` bg, `#E8E4DC` fg); both modes adapt automatically via `prefers-color-scheme`
-- **Color tokens:** `background`, `foreground`, `muted`, `border`, `surface`, `accent` — available as Tailwind utilities (`text-muted`, `bg-surface`, `border-border`, `text-accent`, etc.)
-- **Prose:** `.prose` wrapper class in `globals.css` for article reading pages; element styles live in `src/mdx-components.tsx`
+### Fonts
+Three-font stack loaded via `next/font/google`, assigned as Tailwind utilities:
+- **Cormorant Garamond** (`--font-cormorant`) → `font-display` — headings, section titles, large display text (weights 300/400/500, normal + italic)
+- **Instrument Serif** (`--font-instrument`) → `font-body` — paragraphs, descriptions, editorial captions (weight 400, normal + italic; default body font)
+- **DM Mono** (`--font-dm-mono`) → `font-mono` — nav links, eyebrow labels, tags, metadata, CTAs (weights 300/400, normal + italic)
+
+### Color tokens
+Theming wiped — `globals.css` is a blank slate (just `@import "tailwindcss"`). Color tokens, `@theme` block, and light/dark switching are being rebuilt from scratch.
+
+### Prose
+`.prose` styles to be re-added to `globals.css` once the new design system is in place. Heading overrides live in `src/mdx-components.tsx`.
 
 ## ProjectMetadata Schema
 
@@ -172,9 +180,10 @@ Fields available in project MDX frontmatter (`export const metadata = { ... }`):
 
 ## Current State
 
-- Full visual redesign complete: Fraunces serif + warm neutral palette across all pages
+- Three-font stack still wired: Cormorant Garamond + Instrument Serif + DM Mono (via `next/font/google` in `layout.tsx`)
+- Color theming wiped — `globals.css` is a blank slate, ready to rebuild
 - All five routes built and styled: `/`, `/field-notes`, `/field-notes/[slug]`, `/projects`, `/projects/[slug]`
-- Homepage: Hero (large serif headline + intro video placeholder) → Lately section → Field Notes preview → Projects preview → Email signup
+- Homepage: Hero (static text) → Intro Video placeholder → Lately section → Field Notes preview → Projects preview → Email signup
 - Email capture: wired to Resend via server action (`src/app/email-signup-action.ts`)
 - Placeholder content in `src/content/field-notes/hello-world.mdx` and `src/content/projects/getting-started.mdx`
 - Next up: replace placeholder MDX with real content; swap `ImagePlaceholder` with actual `next/image` when photos are ready; add intro video embed

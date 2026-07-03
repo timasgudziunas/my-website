@@ -72,7 +72,8 @@ export default function RootLayout({
           }}
         />
         <SiteNav />
-        {children}
+        {/* Offsets the fixed nav: top bar on mobile, left rail on desktop */}
+        <div className="pt-14 lg:pt-0 lg:pl-48">{children}</div>
       </body>
     </html>
   );

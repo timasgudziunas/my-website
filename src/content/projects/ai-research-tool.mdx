@@ -1,0 +1,26 @@
+export const metadata = {
+  title: "AI Research Assistant",
+  summary:
+    "A browser extension that summarizes papers, extracts key claims, and surfaces contradicting sources — built for myself, then for others.",
+  date: "2026-03-10",
+  timelineDisplay: "Mar 2026 – Present",
+  tags: ["ai", "product"],
+  links: [],
+  status: "active",
+};
+
+## Context
+
+I was spending 2–3 hours reading academic papers for a side project and most of that time was skimming abstracts and hunting for the methodology section. I built a small Chrome extension to fix that for myself.
+
+After sharing it with a few friends, I realized the problem was more universal.
+
+## What I Built
+
+A Chrome extension that reads the active tab, sends it to a Claude-backed API, and returns a structured summary: core claim, method, key findings, and known limitations. It also surfaces papers that contradict the main finding.
+
+## What I Learned
+
+- Browser extension architecture is more constrained than I expected — content scripts, service workers, and message passing have sharp edges
+- The hardest part wasn't the AI; it was deciding what the output format should look like
+- Shipping something for yourself first removes the paralysis of trying to please everyone

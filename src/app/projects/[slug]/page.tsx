@@ -137,7 +137,20 @@ export default async function ProjectDetailPage({ params }: Props) {
         )}
       </div>
 
-      <EmailSignup />
+      <div className="max-w-3xl mx-auto px-6 pb-16">
+        <section className="rounded-2xl bg-panel-coffee p-8 md:p-10">
+          <h2 className="font-display font-light text-2xl md:text-3xl text-dust">
+            Following this project?
+          </h2>
+          <p className="mt-3 font-body italic text-dust/70 leading-[1.75]">
+            Get an email when there&apos;s a real update — progress, setbacks, and
+            what I learned along the way. No noise.
+          </p>
+          <div className="mt-6">
+            <EmailSignup />
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

@@ -1,0 +1,24 @@
+export const metadata = {
+  title: "Cold Email Tracker",
+  summary:
+    "A lightweight spreadsheet-to-CRM pipeline I built to track 300+ outreach emails without paying for software I'd outgrow in a month.",
+  date: "2025-11-04",
+  timelineDisplay: "Nov 2025",
+  tags: ["automation", "growth"],
+  links: [],
+  status: "completed",
+};
+
+## Context
+
+I was doing a heavy outreach push — investors, potential co-founders, operators I wanted to learn from. I needed to track state (sent, replied, follow-up due) without spending money on a CRM I'd use for six weeks.
+
+## What I Built
+
+A Google Sheets setup with an Apps Script backend that: pulls reply status from Gmail via the API, auto-labels threads, calculates days-since-contact, and sends me a daily digest of who needs a follow-up.
+
+## What I Learned
+
+- Google Apps Script has surprisingly good Gmail API access with almost no setup
+- The bottleneck in outreach is never the tooling — it's the quality of the message
+- Tracking response rates by subject line variant taught me more about copywriting than any course did

@@ -21,7 +21,7 @@ export default async function ProjectsPreview() {
   const latest = projects.slice(0, 3);
 
   return (
-    <section className="px-6 py-16 max-w-5xl mx-auto border-t border-border">
+    <section className="rounded-2xl bg-panel-sand p-6 md:p-10">
       <div className="flex items-baseline justify-between mb-10">
         <h2 className="font-display font-light text-3xl text-primary">Projects</h2>
         <Link
@@ -35,8 +35,13 @@ export default async function ProjectsPreview() {
         <p className="font-body text-sm italic text-muted">Nothing here yet.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {latest.map(({ slug, metadata }) => (
-            <ProjectCard key={slug} slug={slug} metadata={metadata} />
+          {latest.map(({ slug, metadata }, i) => (
+            <ProjectCard
+              key={slug}
+              slug={slug}
+              metadata={metadata}
+              coverTone={(["sky", "gold", "steel"] as const)[i % 3]}
+            />
           ))}
         </div>
       )}

@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/HeroSection";
-import IntroVideo from "@/components/IntroVideo";
 import LatelySection from "@/components/LatelySection";
 import FieldNotesPreview from "@/components/FieldNotesPreview";
 import ProjectsPreview from "@/components/ProjectsPreview";
-import EmailSignup from "@/components/EmailSignup";
 
 const description =
   "Biomedical engineer building ambitious projects in public to foster lifelong learning and a more curious future.";
@@ -28,11 +26,11 @@ export default function HomePage() {
   return (
     <main className="flex-1">
       <HeroSection />
-      <IntroVideo />
-      <LatelySection />
-      <FieldNotesPreview />
-      <ProjectsPreview />
-      <EmailSignup />
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 md:py-14 space-y-6 md:space-y-8">
+        <LatelySection />
+        <FieldNotesPreview />
+        <ProjectsPreview />
+      </div>
     </main>
   );
 }

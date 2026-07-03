@@ -2,15 +2,18 @@ import Link from "next/link";
 import ImagePlaceholder from "./ImagePlaceholder";
 import type { ProjectMetadata } from "@/lib/get-projects";
 
+type Tone = "sand" | "sky" | "gold" | "steel" | "coffee";
+
 type Props = {
   slug: string;
   metadata: ProjectMetadata;
+  coverTone?: Tone;
 };
 
-export default function ProjectCard({ slug, metadata }: Props) {
+export default function ProjectCard({ slug, metadata, coverTone = "sand" }: Props) {
   return (
     <Link href={`/projects/${slug}`} className="group block">
-      <ImagePlaceholder label="project cover" aspectRatio="video" />
+      <ImagePlaceholder label="project cover" aspectRatio="video" tone={coverTone} />
       <div className="mt-4">
         <div className="flex items-center gap-2 flex-wrap">
           <span className="font-mono text-[10px] text-muted tracking-[0.15em] uppercase">

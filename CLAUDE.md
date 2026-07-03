@@ -90,6 +90,8 @@ my-website/
     │   ├── page.tsx            # homepage
     │   ├── globals.css         # Tailwind v4 entry + @theme tokens
     │   ├── email-signup-action.ts  # Resend server action — handles email list subscribe
+    │   ├── newsletter/
+    │   │   └── page.tsx        # /newsletter — dedicated email signup page (nav "Newsletter" CTA target)
     │   ├── field-notes/
     │   │   ├── page.tsx        # Field Notes index
     │   │   └── [slug]/
@@ -103,19 +105,19 @@ my-website/
     │   └── projects/           # Projects — .mdx files, export metadata + default component
     ├── components/             # reusable UI (PascalCase, one per file)
     │   ├── ui/                 # generic primitives: Button, Card, Input — empty, ready
-    │   ├── EmailSignup.tsx     # email capture form (client component, calls email-signup-action)
+    │   ├── EmailSignup.tsx     # email capture form ONLY (client, calls email-signup-action) — compose heading/copy around it; lives on a dark band (dust text). Used by /newsletter + project detail CTA
     │   ├── FieldNoteCard.tsx   # single field note row — date, title, description
     │   ├── FieldNotesPreview.tsx # homepage section: fetches + renders latest 3 notes
     │   ├── HeroSection.tsx     # homepage hero — static text section (eyebrow, display heading, body copy)
-    │   ├── ImagePlaceholder.tsx # aspect-ratio placeholder slot for images/video
+    │   ├── ImagePlaceholder.tsx # aspect-ratio placeholder slot for images/video (tone prop)
     │   ├── LatelySection.tsx   # homepage section: Building, Thinking About, Reading, Current Obsession
+    │   ├── LatestFieldNoteCard.tsx # newest Field Note as a card — used in hero bottom-right (async)
     │   ├── ProjectCard.tsx     # single project card — cover image, timeline, tags, summary
     │   ├── ProjectsPreview.tsx # homepage section: fetches + renders latest 3 projects
     │   ├── RefreshedLabel.tsx  # "refreshed" badge/label component
-    │   ├── SiteNav.tsx         # global nav — name left, links + ThemeToggle right
-    │   └── ThemeToggle.tsx     # dark/light toggle button (client) — stores pref in localStorage
+    │   └── SiteNav.tsx         # global nav — left vertical rail (desktop) / top bar (mobile), palette cards
     ├── config/                 # site-wide constants
-    │   ├── site.ts             # metadata, nav links, site-level config
+    │   ├── site.ts             # metadata, nav links, socialLinks, site-level config
     │   └── lately.ts           # data for the Lately section (Building, Reading, etc.)
     ├── lib/                    # utilities + service clients
     │   ├── format-date.ts      # shared date formatting utility
@@ -160,10 +162,19 @@ Three-font stack loaded via `next/font/google`, assigned as Tailwind utilities:
 - **DM Mono** (`--font-dm-mono`) → `font-mono` — nav links, eyebrow labels, tags, metadata, CTAs (weights 300/400, normal + italic)
 
 ### Color tokens
-Theming wiped — `globals.css` is a blank slate (just `@import "tailwindcss"`). Color tokens, `@theme` block, and light/dark switching are being rebuilt from scratch.
+Rebuilt in `globals.css` via a Tailwind v4 `@theme` block. Palette is sourced from `references/color-palette.png` (@gabim.design) and exposed two ways:
+
+- **Brand palette (exact hexes):** `yale` #0f3b59 · `steel` #7d929e · `dust` #dbd4cc · `gold` #dba12c · `coffee` #3e251e
+- **Brightened brand accents (livelier fill-only variants):** `sky` #2e86bd (vivid cobalt-steel — brighter Cool Steel, used on the Field Notes nav card), `gold-bright` #f2b12e (saturated Goldenrod — Projects nav card + mobile Subscribe). Large fills only; not tuned for small text.
+- **Functional tokens (roles, AA-tuned for the warm-cream paper background):** `base` (page bg — clean warm paper `#f7f0e1`), `surface` (cards/image slots — bright warm ivory `#fdf8ee`), `primary` (text), `muted` (secondary text), `subtle` (metadata), `warm` (eyebrows/links), `deep` (Yale Blue links/nav), `accent` (Goldenrod CTA fills), `ember` (error), `border`, `border-warm`
+- **Section-housing tints (brightened — saturated washes, not greyed):** `panel-sand` #f3d9a2 (warm golden sand), `panel-sky` #a7dbe8 (bright sky blue), `panel-gold` #f8dd85 (vivid Goldenrod) — all take `primary`/`muted` text; `panel-coffee`, `panel-yale` (dark bands — pair with `dust`/light text)
+
+Single light "paper" theme for now — no dark mode wired (no `ThemeToggle`). The page background is a lifted warm cream (not one of the 5 raw hexes) so the palette colors are freed up as surfaces/accents. Colored surfaces (nav cards, section panels) use the saturated raw hexes / brightened accents at full strength for a lively, high-contrast feel; small text still uses AA-safe coffee/gold shades.
+
+**Homepage section housings:** below-hero sections render as rounded tinted panels (via the `panel-*` tints) inside a `max-w-5xl` container in `page.tsx`, cycling colors for rhythm — Lately (sky, with varied bento sub-cards) → Field Notes (gold) → Projects (sand). Email capture is no longer on the homepage — it lives on its own `/newsletter` page (coffee dark band), linked from the nav "Newsletter"/"Subscribe" CTA. `ImagePlaceholder` takes a `tone` prop (`sand|sky|gold|steel|coffee`) so media boxes vary too.
 
 ### Prose
-`.prose` styles to be re-added to `globals.css` once the new design system is in place. Heading overrides live in `src/mdx-components.tsx`.
+`.prose` (font, color, measure) lives in `globals.css`; per-element MDX heading/list/code overrides live in `src/mdx-components.tsx`.
 
 ## ProjectMetadata Schema
 
@@ -180,10 +191,14 @@ Fields available in project MDX frontmatter (`export const metadata = { ... }`):
 
 ## Current State
 
-- Three-font stack still wired: Cormorant Garamond + Instrument Serif + DM Mono (via `next/font/google` in `layout.tsx`)
-- Color theming wiped — `globals.css` is a blank slate, ready to rebuild
-- All five routes built and styled: `/`, `/field-notes`, `/field-notes/[slug]`, `/projects`, `/projects/[slug]`
-- Homepage: Hero (static text) → Intro Video placeholder → Lately section → Field Notes preview → Projects preview → Email signup
-- Email capture: wired to Resend via server action (`src/app/email-signup-action.ts`)
-- Placeholder content in `src/content/field-notes/hello-world.mdx` and `src/content/projects/getting-started.mdx`
-- Next up: replace placeholder MDX with real content; swap `ImagePlaceholder` with actual `next/image` when photos are ready; add intro video embed
+- Three-font stack wired: Cormorant Garamond + Instrument Serif + DM Mono (via `next/font/google` in `layout.tsx`)
+- Color theming rebuilt from the `references/color-palette.png` palette (see Design System → Color tokens); single light "paper" theme
+- **Cinematic redesign (static shell) shipped**, inspired by `references/`:
+  - Left vertical nav rail on desktop (stacked palette-colored cards: 01 Home / 02 Field Notes / 03 Projects + "Newsletter" CTA + a coffee-dark social row: LinkedIn/Instagram/GitHub from `socialLinks` in `config/site.ts`) → collapses to a top bar on mobile. Content is offset in `layout.tsx` (`lg:pl-48`)
+  - Full-bleed cinematic hero: oversized display headline bottom-left over a palette gradient backdrop, with `LatestFieldNoteCard` pinned bottom-right (per Reference A)
+- All six routes build and render: `/`, `/newsletter`, `/field-notes`, `/field-notes/[slug]`, `/projects`, `/projects/[slug]`
+- Homepage: Hero (headline + latest-note card) → Lately → Field Notes preview → Projects preview
+- Email capture: `EmailSignup` is now a form-only client component; it lives on the dedicated `/newsletter` page (nav CTA target) and in a project-specific CTA at the bottom of each project detail page. Wired to Resend via server action (`src/app/email-signup-action.ts`); Goldenrod submit button
+- **Phase 4.99 (see `PLAN.md`) NOT built:** projects horizontal scroll-carousel, hero background video, loading animation, "Lately" curtain reveal. Motion layer to come; hero backdrop is a gradient placeholder awaiting the video asset
+- Known pre-existing lint error in `RefreshedLabel.tsx` (setState-in-effect), unrelated to redesign
+- Next up: Phase 4.99 motion features (need video + loader assets); replace placeholder MDX/images with real content

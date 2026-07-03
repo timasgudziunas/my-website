@@ -6,15 +6,15 @@ import { lately } from "@/config/lately";
 
 export default function LatelySection() {
   return (
-    <section className="px-6 py-16 max-w-5xl mx-auto border-t border-border">
-      <div className="flex items-baseline justify-between mb-10">
+    <section className="rounded-2xl bg-panel-sky p-6 md:p-10">
+      <div className="flex items-baseline justify-between mb-8">
         <h2 className="font-display font-light text-3xl text-primary">Lately</h2>
         <RefreshedLabel date={lately.lastRefreshed} />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Building */}
-        <div>
+        <div className="rounded-xl bg-panel-gold p-6">
           <span className="font-mono text-[10px] text-warm tracking-[0.2em] uppercase">
             Building
           </span>
@@ -27,7 +27,7 @@ export default function LatelySection() {
         </div>
 
         {/* Thinking About */}
-        <div>
+        <div className="rounded-xl bg-surface p-6">
           <span className="font-mono text-[10px] text-warm tracking-[0.2em] uppercase">
             Thinking About
           </span>
@@ -35,7 +35,7 @@ export default function LatelySection() {
             {lately.thinkingAbout.map((thought, i) => (
               <li
                 key={i}
-                className="font-body text-sm italic leading-[1.75] pl-4 border-l-2 border-border text-muted"
+                className="font-body text-sm italic leading-[1.75] pl-4 border-l-2 border-warm/40 text-muted"
               >
                 {thought}
               </li>
@@ -44,13 +44,13 @@ export default function LatelySection() {
         </div>
 
         {/* Current Obsession */}
-        <div>
+        <div className="rounded-xl bg-panel-sand p-6">
           <span className="font-mono text-[10px] text-warm tracking-[0.2em] uppercase">
             Current Obsession
           </span>
           <div className="mt-3">
             {lately.currentObsession.photo ? (
-              <div className="relative w-full aspect-video mb-3 rounded-[2px] overflow-hidden">
+              <div className="relative w-full aspect-video mb-3 rounded-[3px] overflow-hidden">
                 <Image
                   src={lately.currentObsession.photo}
                   alt="current obsession"
@@ -60,7 +60,7 @@ export default function LatelySection() {
               </div>
             ) : (
               <div className="mb-3">
-                <ImagePlaceholder label="photo" aspectRatio="video" />
+                <ImagePlaceholder label="photo" aspectRatio="video" tone="coffee" />
               </div>
             )}
             <p className="font-body text-sm italic text-muted leading-[1.75]">
@@ -70,7 +70,7 @@ export default function LatelySection() {
         </div>
 
         {/* Reading */}
-        <div>
+        <div className="rounded-xl bg-surface p-6">
           <span className="font-mono text-[10px] text-warm tracking-[0.2em] uppercase">
             Reading
           </span>
@@ -82,10 +82,10 @@ export default function LatelySection() {
                   alt={lately.reading.title}
                   width={64}
                   height={96}
-                  className="rounded-[2px] object-cover"
+                  className="rounded-[3px] object-cover"
                 />
               ) : (
-                <ImagePlaceholder label="cover" aspectRatio="portrait" />
+                <ImagePlaceholder label="cover" aspectRatio="portrait" tone="gold" />
               )}
             </div>
             <div>

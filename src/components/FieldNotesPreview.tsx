@@ -21,7 +21,7 @@ export default async function FieldNotesPreview() {
   const latest = notes.slice(0, 3);
 
   return (
-    <section className="px-6 py-16 max-w-5xl mx-auto border-t border-border">
+    <section className="rounded-2xl bg-panel-gold p-6 md:p-10">
       <div className="flex items-baseline justify-between mb-10">
         <h2 className="font-display font-light text-3xl text-primary">Field Notes</h2>
         <Link

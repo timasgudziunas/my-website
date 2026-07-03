@@ -55,6 +55,23 @@ A personal brand platform that turns social/search traffic into owned email subs
 - [x] **Current Obsession** — description text + photo slot (swap `ImagePlaceholder` for real photo when ready)
 - [x] "Past reads →" inline link below Reading, pointing to `/past-reads` (page not yet built)
 
+### Phase 4.99 — Cinematic Redesign & Motion (NOT YET BUILT)
+
+Visual direction drawn from `references/`:
+- **Reference A** (`hero-section-inspo…`): full-bleed cinematic hero, oversized bold display headline anchored bottom-left, a "latest" card popping up in the bottom-right corner (image + eyebrow label + title + external-link arrow).
+- **Reference B** (`too-colorful-but-amazing-left-handed-navbar`): a **left-handed vertical navbar** of stacked numbered items + CTA. Adopt the *layout* only — keep our restrained editorial palette, NOT the loud primary colors.
+
+Pattern: **Scroll-Triggered Storytelling** — narrative-driven scroll with progressive reveals and a scroll-progress indicator. Simplify all motion on mobile and honor `prefers-reduced-motion` (static fallbacks for every effect below).
+
+Features to build:
+
+- [ ] **1. Projects horizontal carousel (scroll-pinned).** Scrolling down pins the Projects section and converts vertical scroll into horizontal travel through the project cards. Only after the last card does normal vertical scrolling resume. Needs a `prefers-reduced-motion` / mobile fallback (vertical stack or native swipe carousel).
+- [ ] **2. Hero background video.** Autoplaying, muted, looping, `playsInline` background video behind the hero headline. Asset provided by Timas. Poster image + static fallback for reduced-motion and slow connections; lazy/optimized so it doesn't hurt CWV.
+- [ ] **3. Site loading animation (if warranted).** Aesthetic animated intro/loader on first paint. Asset/direction provided by Timas. Must not block LCP meaningfully; skip on repeat visits and for reduced-motion.
+- [ ] **4. "Lately" curtain reveal.** Scrolling into the Lately section pulls back a curtain labelled "lately." After scrolling through Lately, the curtain returns — then breaks and falls, spilling into the Projects section below. Needs reduced-motion fallback (plain section transition).
+- [ ] **5. Latest field note pop-up card** in the hero's bottom-right corner (per Reference A) — pulls the newest Field Note (eyebrow "LATEST", title, external-link arrow, optional cover image).
+- [ ] More features / edits TBD — Timas will add.
+
 ### Phase 5 — Polish
 
 - [ ] SEO: sitemap, robots.txt, structured data where relevant

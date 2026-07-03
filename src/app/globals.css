@@ -1,1 +1,101 @@
 @import "tailwindcss";
+
+/*
+  Design system
+  ─────────────
+  Palette from references/color-palette.png (@gabim.design):
+    Yale Blue  #0f3b59   Cool Steel #7d929e   Dust Grey #dbd4cc
+    Goldenrod  #dba12c   Dark Coffee #3e251e
+  These five are exposed verbatim as `--color-yale/steel/dust/gold/coffee`.
+  Functional tokens below assign roles for AA contrast on the Dust Grey paper
+  background (some are tuned shades of the palette so small text stays legible).
+*/
+
+@theme {
+  /* Fonts — variables come from next/font in layout.tsx */
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-instrument);
+  --font-mono: var(--font-dm-mono);
+
+  /* Brand palette — exact hexes */
+  --color-yale: #0f3b59;
+  --color-steel: #7d929e;
+  --color-dust: #dbd4cc;
+  --color-gold: #dba12c;
+  --color-coffee: #3e251e;
+
+  /* Brightened brand accents — livelier cousins of the muted hexes, used on
+     interactive/colored surfaces (nav cards) so blocks pop like the reference.
+     Text tokens below stay AA-safe; these are for large fills only. */
+  --color-sky: #2e86bd;         /* vivid cobalt-steel — brighter Cool Steel */
+  --color-gold-bright: #f2b12e; /* saturated Goldenrod for fills */
+
+  /* Functional tokens */
+  --color-base: #f7f0e1;        /* page background — clean warm paper (lifted, less muddy) */
+  --color-surface: #fdf8ee;     /* elevated cards / image slots — bright warm ivory */
+  --color-primary: #33201a;     /* primary text — deep coffee */
+  --color-muted: #6a5648;       /* secondary text — coffee tint (AA) */
+  --color-subtle: #7f6d5c;      /* tertiary / metadata labels */
+  --color-warm: #7d4f18;        /* eyebrows / inline links — warm gold-brown (AA) */
+  --color-deep: #0f3b59;        /* Yale Blue — links, nav rail */
+  --color-accent: #dba12c;      /* Goldenrod — CTA fills, underlines, active */
+  --color-ember: #a3341f;       /* error text — rust */
+  --color-border: #d8c8ad;      /* hairline on paper */
+  --color-border-warm: #c3a97f; /* warm hairline (tags) */
+
+  /* Section-housing tints — brighter, more saturated washes so sections read
+     as lively colored bands (all take primary/muted text) */
+  --color-panel-sand: #f3d9a2;  /* warm golden sand (Dust/gold family) */
+  --color-panel-sky: #a7dbe8;   /* bright sky blue (saturated, not greyed) */
+  --color-panel-gold: #f8dd85;  /* vivid Goldenrod tint */
+  /* Dark housings — pair with light text (dust/cream) */
+  --color-panel-coffee: #3e251e; /* Dark Coffee band */
+  --color-panel-yale: #0f3b59;   /* Yale Blue band */
+}
+
+/* ---- Base ---- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-base);
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-coffee);
+}
+
+/* Visible focus ring for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--color-deep);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Prose (MDX body copy) ---- */
+.prose {
+  font-family: var(--font-body);
+  color: var(--color-primary);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  max-width: 68ch;
+}

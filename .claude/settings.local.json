@@ -26,7 +26,25 @@
       "Bash(npx --no-install playwright --version)",
       "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:3000)",
       "Bash(npx tsc *)",
-      "Bash(netstat -ano)"
+      "Bash(netstat -ano)",
+      "Bash(git reset *)",
+      "Bash(wmic process *)",
+      "PowerShell(Get-CimInstance *)",
+      "Bash(curl -s -D - -o /dev/null http://localhost:3000/)",
+      "Bash(git restore *)",
+      "Bash(rm -f public/newsletter-background.png references/background1.png references/palette2.png references/palette3.png)",
+      "Bash(powershell -Command \"Stop-Process -Id 23884 -Force\")",
+      "Bash(powershell -Command \"Stop-Process -Id 7076 -Force\")",
+      "Bash(taskkill *)",
+      "PowerShell(Stop-Process *)",
+      "Bash(ls -la --time-style=full-iso references/)",
+      "Bash(powershell -Command \"Get-ChildItem references | Select-Object Name, LastWriteTime\")",
+      "Read(//tmp/**)",
+      "Skill(run)",
+      "Bash(chromium-cli *)",
+      "Bash(node -e ' *)",
+      "Bash(git clean *)",
+      "Bash(git push *)"
     ]
   }
 }

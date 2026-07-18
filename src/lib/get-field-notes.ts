@@ -9,6 +9,7 @@ export type FieldNoteMetadata = {
 
 export function getFieldNoteSlugs(): string[] {
   const dir = path.join(process.cwd(), "src/content/field-notes");
+  if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
     .filter((f) => f.endsWith(".mdx"))

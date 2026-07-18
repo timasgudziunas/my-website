@@ -5,11 +5,11 @@ export const siteConfig = {
 } as const;
 
 /**
- * Social profiles surfaced in the nav rail. `icon` maps to an SVG in SiteNav.
+ * Social profiles for whatever nav/footer eventually renders them.
  * TODO: replace placeholder hrefs with real profile URLs.
  */
 export const socialLinks = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/", icon: "linkedin" },
-  { label: "Instagram", href: "https://www.instagram.com/", icon: "instagram" },
-  { label: "GitHub", href: "https://github.com/", icon: "github" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/" },
+  { label: "Instagram", href: "https://www.instagram.com/" },
+  { label: "GitHub", href: "https://github.com/" },
 ] as const;

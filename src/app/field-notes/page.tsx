@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import FieldNoteCard from "@/components/FieldNoteCard";
-import { getFieldNoteSlugs, type FieldNoteMetadata } from "@/lib/get-field-notes";
+import Link from "next/link";
+import { getFieldNoteSlugs } from "@/lib/get-field-notes";
 
 const description =
   "Thoughts, research, reflections, and lessons documented in real time.";
@@ -20,40 +20,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function NotesIndexPage() {
+// NOTE: while src/content/field-notes/ has zero .mdx files, Turbopack cannot
+// compile a dynamic `import("@/content/field-notes/...mdx")` — so this index
+// lists slugs only. When the first real note lands, restore the metadata
+// import (title/date sorted) — see git history of this file.
+export default function NotesIndexPage() {
   const slugs = getFieldNoteSlugs();
 
-  const notes: { slug: string; metadata: FieldNoteMetadata }[] = await Promise.all(
-    slugs.map(async (slug) => {
-      const mod = (await import(`@/content/field-notes/${slug}.mdx`)) as {
-        metadata: FieldNoteMetadata;
-      };
-      return { slug, metadata: mod.metadata };
-    })
-  );
-
-  notes.sort(
-    (a, b) => new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime()
-  );
-
   return (
-    <main className="max-w-3xl mx-auto px-6 py-16">
-      <header className="mb-14">
-        <h1 className="font-display font-light text-5xl text-primary">Field Notes</h1>
-        <p className="mt-4 font-body italic text-muted leading-[1.75] max-w-md">
-          {description}
-        </p>
-      </header>
+    <main>
+      <h1>Field Notes</h1>
+      <p>{description}</p>
 
-      {notes.length === 0 ? (
-        <p className="font-body text-sm italic text-muted">
-          Nothing published yet. Check back soon.
-        </p>
+      {slugs.length === 0 ? (
+        <p>Nothing published yet. Check back soon.</p>
       ) : (
-        <ul className="space-y-10">
-          {notes.map(({ slug, metadata: noteMeta }) => (
+        <ul>
+          {slugs.map((slug) => (
             <li key={slug}>
-              <FieldNoteCard slug={slug} metadata={noteMeta} />
+              <Link href={`/field-notes/${slug}`}>{slug}</Link>
             </li>
           ))}
         </ul>

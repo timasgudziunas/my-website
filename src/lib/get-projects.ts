@@ -15,6 +15,7 @@ export type ProjectMetadata = {
 
 export function getProjectSlugs(): string[] {
   const dir = path.join(process.cwd(), "src/content/projects");
+  if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
     .filter((f) => f.endsWith(".mdx"))

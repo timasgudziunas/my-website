@@ -49,7 +49,7 @@ Before adding anything, ask: does this directly support email capture, trust, or
 
 - Next.js 16 (App Router) + React 19 — **has breaking changes from training data; consult `node_modules/next/dist/docs/` before assuming any API (see `AGENTS.md`)**
 - TypeScript
-- MDX (via `@next/mdx` or `contentlayer`) — content layer for Field Notes (articles) and Projects; files live in `/content`
+- MDX (via `@next/mdx`) — content layer for Field Notes (articles) and Projects; files live in `src/content`
 - Tailwind CSS v4 — CSS-first config in `src/app/globals.css` via `@theme`; **no `tailwind.config.js`**
 - Vercel — deployment target
 - Resend — installed; client in `src/lib/resend.ts`, server action in `src/app/email-signup-action.ts` (transactional + broadcast email)
@@ -76,22 +76,19 @@ Live tree (kept accurate as the project grows):
 my-website/
 ├── AGENTS.md                   # READ FIRST when touching Next.js — canonical docs in node_modules/next/dist/docs/
 ├── CLAUDE.md                   # this file
+├── PLAN.md                     # build plan
 ├── README.md
-├── .env                        # local secrets (no .env.example yet — add one when Supabase/Resend land)
-├── public/                     # static assets
-│   ├── tg-logo-dark.png        # favicon — dark mode
-│   ├── tg-logo-light.png       # favicon — light mode
-│   ├── next.svg
-│   └── vercel.svg
+├── .env                        # local secrets (no .env.example yet)
+├── public/                     # static assets — empty after the reset
 └── src/
-    ├── mdx-components.tsx      # required by @next/mdx App Router — global MDX component overrides
+    ├── mdx-components.tsx      # required by @next/mdx App Router — global MDX component overrides (empty for now)
     ├── app/                    # App Router: routes, layouts, route handlers
-    │   ├── layout.tsx          # root layout — font setup, global metadata template
+    │   ├── layout.tsx          # root layout — global metadata template, plain nav links
     │   ├── page.tsx            # homepage
-    │   ├── globals.css         # Tailwind v4 entry + @theme tokens
+    │   ├── globals.css         # Tailwind v4 entry (no @theme tokens yet)
     │   ├── email-signup-action.ts  # Resend server action — handles email list subscribe
     │   ├── newsletter/
-    │   │   └── page.tsx        # /newsletter — dedicated email signup page (nav "Newsletter" CTA target)
+    │   │   └── page.tsx        # /newsletter — email signup page (form UI to be rebuilt)
     │   ├── field-notes/
     │   │   ├── page.tsx        # Field Notes index
     │   │   └── [slug]/
@@ -100,25 +97,12 @@ my-website/
     │       ├── page.tsx        # Projects index
     │       └── [slug]/
     │           └── page.tsx    # individual project — dynamically imports MDX from src/content/projects/
-    ├── content/                # MDX source files (one file per note/project, filename = slug)
+    ├── content/                # MDX source files (one file per note/project, filename = slug) — empty after the reset
     │   ├── field-notes/        # Field Notes — .mdx files, export metadata + default component
     │   └── projects/           # Projects — .mdx files, export metadata + default component
-    ├── components/             # reusable UI (PascalCase, one per file)
-    │   ├── ui/                 # generic primitives: Button, Card, Input — empty, ready
-    │   ├── EmailSignup.tsx     # email capture form ONLY (client, calls email-signup-action) — compose heading/copy around it; lives on a dark band (dust text). Used by /newsletter + project detail CTA
-    │   ├── FieldNoteCard.tsx   # single field note row — date, title, description
-    │   ├── FieldNotesPreview.tsx # homepage section: fetches + renders latest 3 notes
-    │   ├── HeroSection.tsx     # homepage hero — static text section (eyebrow, display heading, body copy)
-    │   ├── ImagePlaceholder.tsx # aspect-ratio placeholder slot for images/video (tone prop)
-    │   ├── LatelySection.tsx   # homepage section: Building, Thinking About, Reading, Current Obsession
-    │   ├── LatestFieldNoteCard.tsx # newest Field Note as a card — used in hero bottom-right (async)
-    │   ├── ProjectCard.tsx     # single project card — cover image, timeline, tags, summary
-    │   ├── ProjectsPreview.tsx # homepage section: fetches + renders latest 3 projects
-    │   ├── RefreshedLabel.tsx  # "refreshed" badge/label component
-    │   └── SiteNav.tsx         # global nav — left vertical rail (desktop) / top bar (mobile), palette cards
+    ├── components/             # (removed in the reset — recreate when the new design starts)
     ├── config/                 # site-wide constants
-    │   ├── site.ts             # metadata, nav links, socialLinks, site-level config
-    │   └── lately.ts           # data for the Lately section (Building, Reading, etc.)
+    │   └── site.ts             # metadata, socialLinks, site-level config
     ├── lib/                    # utilities + service clients
     │   ├── format-date.ts      # shared date formatting utility
     │   ├── get-field-notes.ts  # FieldNoteMetadata type + getFieldNoteSlugs()
@@ -153,35 +137,12 @@ Every page must be indexable and shareable:
 - Ship as little JS as possible — favor Server Components and static rendering
 - Structured sections that future essays/field-notes can slot into
 
-## Design System
-
-### Fonts
-Three-font stack loaded via `next/font/google`, assigned as Tailwind utilities:
-- **Cormorant Garamond** (`--font-cormorant`) → `font-display` — headings, section titles, large display text (weights 300/400/500, normal + italic)
-- **Instrument Serif** (`--font-instrument`) → `font-body` — paragraphs, descriptions, editorial captions (weight 400, normal + italic; default body font)
-- **DM Mono** (`--font-dm-mono`) → `font-mono` — nav links, eyebrow labels, tags, metadata, CTAs (weights 300/400, normal + italic)
-
-### Color tokens
-Rebuilt in `globals.css` via a Tailwind v4 `@theme` block. Palette is sourced from `references/color-palette.png` (@gabim.design) and exposed two ways:
-
-- **Brand palette (exact hexes):** `yale` #0f3b59 · `steel` #7d929e · `dust` #dbd4cc · `gold` #dba12c · `coffee` #3e251e
-- **Brightened brand accents (livelier fill-only variants):** `sky` #2e86bd (vivid cobalt-steel — brighter Cool Steel, used on the Field Notes nav card), `gold-bright` #f2b12e (saturated Goldenrod — Projects nav card + mobile Subscribe). Large fills only; not tuned for small text.
-- **Functional tokens (roles, AA-tuned for the warm-cream paper background):** `base` (page bg — clean warm paper `#f7f0e1`), `surface` (cards/image slots — bright warm ivory `#fdf8ee`), `primary` (text), `muted` (secondary text), `subtle` (metadata), `warm` (eyebrows/links), `deep` (Yale Blue links/nav), `accent` (Goldenrod CTA fills), `ember` (error), `border`, `border-warm`
-- **Section-housing tints (brightened — saturated washes, not greyed):** `panel-sand` #f3d9a2 (warm golden sand), `panel-sky` #a7dbe8 (bright sky blue), `panel-gold` #f8dd85 (vivid Goldenrod) — all take `primary`/`muted` text; `panel-coffee`, `panel-yale` (dark bands — pair with `dust`/light text)
-
-Single light "paper" theme for now — no dark mode wired (no `ThemeToggle`). The page background is a lifted warm cream (not one of the 5 raw hexes) so the palette colors are freed up as surfaces/accents. Colored surfaces (nav cards, section panels) use the saturated raw hexes / brightened accents at full strength for a lively, high-contrast feel; small text still uses AA-safe coffee/gold shades.
-
-**Homepage section housings:** below-hero sections render as rounded tinted panels (via the `panel-*` tints) inside a `max-w-5xl` container in `page.tsx`, cycling colors for rhythm — Lately (sky, with varied bento sub-cards) → Field Notes (gold) → Projects (sand). Email capture is no longer on the homepage — it lives on its own `/newsletter` page (coffee dark band), linked from the nav "Newsletter"/"Subscribe" CTA. `ImagePlaceholder` takes a `tone` prop (`sand|sky|gold|steel|coffee`) so media boxes vary too.
-
-### Prose
-`.prose` (font, color, measure) lives in `globals.css`; per-element MDX heading/list/code overrides live in `src/mdx-components.tsx`.
-
 ## ProjectMetadata Schema
 
 Fields available in project MDX frontmatter (`export const metadata = { ... }`):
 - `title` — project name
 - `summary` — one-line description (used in SEO + cards)
-- `coverImage?` — path to cover image (optional; `ImagePlaceholder` renders until set)
+- `coverImage?` — path to cover image (optional)
 - `timelineDisplay` — human-readable date range, e.g. `"Jan 2026 – Present"`
 - `date` — ISO date string for sorting, e.g. `"2026-01-15"`
 - `dateUpdated?` — ISO date of last update (optional)
@@ -191,14 +152,11 @@ Fields available in project MDX frontmatter (`export const metadata = { ... }`):
 
 ## Current State
 
-- Three-font stack wired: Cormorant Garamond + Instrument Serif + DM Mono (via `next/font/google` in `layout.tsx`)
-- Color theming rebuilt from the `references/color-palette.png` palette (see Design System → Color tokens); single light "paper" theme
-- **Cinematic redesign (static shell) shipped**, inspired by `references/`:
-  - Left vertical nav rail on desktop (stacked palette-colored cards: 01 Home / 02 Field Notes / 03 Projects + "Newsletter" CTA + a coffee-dark social row: LinkedIn/Instagram/GitHub from `socialLinks` in `config/site.ts`) → collapses to a top bar on mobile. Content is offset in `layout.tsx` (`lg:pl-48`)
-  - Full-bleed cinematic hero: oversized display headline bottom-left over a palette gradient backdrop, with `LatestFieldNoteCard` pinned bottom-right (per Reference A)
-- All six routes build and render: `/`, `/newsletter`, `/field-notes`, `/field-notes/[slug]`, `/projects`, `/projects/[slug]`
-- Homepage: Hero (headline + latest-note card) → Lately → Field Notes preview → Projects preview
-- Email capture: `EmailSignup` is now a form-only client component; it lives on the dedicated `/newsletter` page (nav CTA target) and in a project-specific CTA at the bottom of each project detail page. Wired to Resend via server action (`src/app/email-signup-action.ts`); Goldenrod submit button
-- **Phase 4.99 (see `PLAN.md`) NOT built:** projects horizontal scroll-carousel, hero background video, loading animation, "Lately" curtain reveal. Motion layer to come; hero backdrop is a gradient placeholder awaiting the video asset
-- Known pre-existing lint error in `RefreshedLabel.tsx` (setState-in-effect), unrelated to redesign
-- Next up: Phase 4.99 motion features (need video + loader assets); replace placeholder MDX/images with real content
+**Full visual reset (July 2026).** All theming, components, and media were deliberately deleted to restart the design from scratch. What remains:
+
+- All six routes build and render as bare, unstyled HTML: `/`, `/newsletter`, `/field-notes`, `/field-notes/[slug]`, `/projects`, `/projects/[slug]`
+- Root layout has a plain text nav; no fonts, no color tokens, no favicons, no components
+- `src/content/` is empty — no placeholder MDX; index pages show an empty state
+- Email capture backend still wired (Resend client + `email-signup-action.ts`) but has no form UI — rebuild one on `/newsletter`
+- Known pre-existing lint config only; no custom design system in `globals.css`
+- Next up: design a new visual direction from scratch, then rebuild components on top of the working route skeleton

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
+import SiteIntro from "@/components/SiteIntro";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <SiteIntro />
         <nav>
           <Link href="/">Home</Link> ·{" "}
           <Link href="/articles">Articles</Link> ·{" "}

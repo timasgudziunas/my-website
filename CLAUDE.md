@@ -78,6 +78,7 @@ Live tree (kept accurate as the project grows):
 my-website/
 ├── AGENTS.md                   # READ FIRST when touching Next.js — canonical docs in node_modules/next/dist/docs/
 ├── CLAUDE.md                   # this file
+├── HANDOFF.md                  # session handoff — authoritative current state, read first
 ├── PLAN.md                     # build plan
 ├── README.md
 ├── .env                        # local secrets, gitignored
@@ -174,11 +175,6 @@ Fields available in field note MDX frontmatter (`export const metadata = { ... }
 
 ## Current State
 
-**Full visual reset (July 2026).** All theming, components, and media were deliberately deleted to restart the design from scratch. What remains:
+**Current state lives in `HANDOFF.md`** (authoritative, refreshed every session — read it at session start before doing anything else). This file keeps only the timeless context:
 
-- All six routes build. Four render as bare, unstyled HTML: `/`, `/newsletter`, `/field-notes`, `/projects`. The two `[slug]` routes (`/field-notes/[slug]`, `/projects/[slug]`) render the not-found boundary: `generateStaticParams` returns `[]` and `dynamicParams` is `false` since their content dirs are empty (see Landmines)
-- Root layout has a plain text nav; no fonts, no color tokens, no favicons, no components
-- `src/content/` is empty — no placeholder MDX; index pages show an empty state
-- Email capture backend still wired (Resend client + `email-signup-action.ts`) but has no form UI — rebuild one on `/newsletter`
-- Known pre-existing lint config only; no custom design system in `globals.css`
-- Next up: design a new visual direction from scratch, then rebuild components on top of the working route skeleton
+**Full visual reset (July 2026).** All theming, components, and media were deliberately deleted (via the `reset-visual-design` skill) to restart the design from scratch. The working skeleton survived: all six routes build, MDX pipeline intact, email capture backend wired (Resend client + `email-signup-action.ts`) with no form UI. The reset was deliberate — don't restore old components from git history except the `[slug]` MDX plumbing (see Landmines).

@@ -18,7 +18,7 @@ All routes exist and build; markup is bare after the July 2026 visual reset.
 - [x] Next.js 16 + TypeScript + Tailwind v4 scaffold, deployed to Vercel with custom domain
 - [x] MDX pipeline (`@next/mdx`): dynamic slug pages, `generateStaticParams`, per-page metadata
 - [x] Resend client (`src/lib/resend.ts`) + email capture Server Action (`src/app/email-signup-action.ts`)
-- [x] Per-page `metadata` export on every route (title, description, OG, Twitter)
+- [x] Per-page `metadata` export on 4 of 6 routes (title, description, OG, Twitter) — the two `[slug]` stubs (`/field-notes/[slug]`, `/projects/[slug]`) lost their metadata export when they were stubbed out; restore it alongside the MDX import when content lands (see CLAUDE.md Landmines)
 
 ## To Build
 

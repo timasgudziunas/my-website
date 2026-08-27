@@ -2,19 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getProjectSlugs } from "@/lib/get-projects";
 
-const description = "Things I'm building — tracked in public.";
+const description = "Things I'm building, tracked in public.";
 
 export const metadata: Metadata = {
   title: "Projects",
   description,
   openGraph: {
-    title: "Projects — Timas Gudziunas",
+    title: "Projects | Timas Gudziunas",
     description,
     url: "/projects",
     type: "website",
   },
   twitter: {
-    title: "Projects — Timas Gudziunas",
+    title: "Projects | Timas Gudziunas",
     description,
   },
 };

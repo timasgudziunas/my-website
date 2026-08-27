@@ -9,13 +9,13 @@ export const metadata: Metadata = {
   title: "Field Notes",
   description,
   openGraph: {
-    title: "Field Notes — Timas Gudziunas",
+    title: "Field Notes | Timas Gudziunas",
     description,
     url: "/field-notes",
     type: "website",
   },
   twitter: {
-    title: "Field Notes — Timas Gudziunas",
+    title: "Field Notes | Timas Gudziunas",
     description,
   },
 };

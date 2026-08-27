@@ -6,7 +6,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    template: "%s — Timas Gudziunas",
+    template: "%s | Timas Gudziunas",
     default: "Timas Gudziunas",
   },
   description: siteConfig.description,

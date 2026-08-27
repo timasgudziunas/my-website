@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 
 const description =
-  "Occasional updates from an entrepreneurial journey documented in public — project milestones, lessons learned, and ideas worth sharing. No noise.";
+  "Occasional updates from an entrepreneurial journey documented in public: project milestones, lessons learned, and ideas worth sharing. No noise.";
 
 export const metadata: Metadata = {
   title: "Newsletter",
   description,
   openGraph: {
-    title: "Newsletter — Timas Gudziunas",
+    title: "Newsletter | Timas Gudziunas",
     description,
     url: "/newsletter",
     type: "website",
   },
   twitter: {
-    title: "Newsletter — Timas Gudziunas",
+    title: "Newsletter | Timas Gudziunas",
     description,
   },
 };

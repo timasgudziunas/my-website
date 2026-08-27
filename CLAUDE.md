@@ -34,6 +34,8 @@ Before creating any new file, ask:
 
 First-person, transparent, ambitious without being grandiose. Specific over generic. Warm, curious, plain-spoken. No corporate jargon, no hype words ("revolutionary", "unlock", "synergy"), no buzzwords. Short sentences are fine. Honest about being early.
 
+**Hard rule: no em dashes, en dashes, or hyphens used as punctuation anywhere in site copy, titles included.** Rewrite the sentence instead (period, comma, colon, or restructure). Hyphens inside compound words (e.g. long-distance) are fine. No exceptions.
+
 ## Scope Guard — What NOT to Build
 
 Before adding anything, ask: does this directly support email capture, trust, or curiosity? If not, don't build it.
@@ -47,7 +49,7 @@ Before adding anything, ask: does this directly support email capture, trust, or
 
 ## Tech Stack
 
-- Next.js 16 (App Router) + React 19 — **has breaking changes from training data; consult `node_modules/next/dist/docs/` before assuming any API (see `AGENTS.md`)**
+- Next.js 16 (App Router) + React 19 — **has breaking changes from training data; consult `node_modules/next/dist/docs/` before assuming any API (see `AGENTS.md`, which duplicates this note for other tools; update both together)**
 - TypeScript
 - MDX (via `@next/mdx`) — content layer for Field Notes (articles) and Projects; files live in `src/content`
 - Tailwind CSS v4 — CSS-first config in `src/app/globals.css` via `@theme`; **no `tailwind.config.js`**
@@ -78,7 +80,8 @@ my-website/
 ├── CLAUDE.md                   # this file
 ├── PLAN.md                     # build plan
 ├── README.md
-├── .env                        # local secrets (no .env.example yet)
+├── .env                        # local secrets, gitignored
+├── .env.example                # variable names only, committed
 ├── public/                     # static assets — empty after the reset
 └── src/
     ├── mdx-components.tsx      # required by @next/mdx App Router — global MDX component overrides (empty for now)
@@ -92,23 +95,22 @@ my-website/
     │   ├── field-notes/
     │   │   ├── page.tsx        # Field Notes index
     │   │   └── [slug]/
-    │   │       └── page.tsx    # individual note — dynamically imports MDX from src/content/field-notes/
+    │   │       └── page.tsx    # STUB: calls notFound() unconditionally (src/content/field-notes/ is empty, Turbopack can't compile the dynamic MDX import against zero files) — restore MDX rendering from git history when the first note lands
     │   └── projects/
     │       ├── page.tsx        # Projects index
     │       └── [slug]/
-    │           └── page.tsx    # individual project — dynamically imports MDX from src/content/projects/
+    │           └── page.tsx    # STUB: calls notFound() unconditionally (src/content/projects/ is empty, same Turbopack constraint) — restore MDX rendering from git history when the first project lands
     ├── content/                # MDX source files (one file per note/project, filename = slug) — empty after the reset
     │   ├── field-notes/        # Field Notes — .mdx files, export metadata + default component
     │   └── projects/           # Projects — .mdx files, export metadata + default component
     ├── components/             # (removed in the reset — recreate when the new design starts)
     ├── config/                 # site-wide constants
     │   └── site.ts             # metadata, socialLinks, site-level config
-    ├── lib/                    # utilities + service clients
-    │   ├── format-date.ts      # shared date formatting utility
-    │   ├── get-field-notes.ts  # FieldNoteMetadata type + getFieldNoteSlugs()
-    │   ├── get-projects.ts     # ProjectMetadata type + getProjectSlugs()
-    │   └── resend.ts           # Resend client
-    └── types/                  # shared TypeScript types — empty, ready
+    └── lib/                    # utilities + service clients
+        ├── format-date.ts      # shared date formatting utility
+        ├── get-field-notes.ts  # FieldNoteMetadata type + getFieldNoteSlugs()
+        ├── get-projects.ts     # ProjectMetadata type + getProjectSlugs()
+        └── resend.ts           # Resend client
 (config: next.config.ts, eslint.config.mjs, postcss.config.mjs, tsconfig.json, package.json)
 ```
 
@@ -143,18 +145,38 @@ Fields available in project MDX frontmatter (`export const metadata = { ... }`):
 - `title` — project name
 - `summary` — one-line description (used in SEO + cards)
 - `coverImage?` — path to cover image (optional)
-- `timelineDisplay` — human-readable date range, e.g. `"Jan 2026 – Present"`
+- `timelineDisplay` — human-readable date range, e.g. `"Jan 2026 to Present"`
 - `date` — ISO date string for sorting, e.g. `"2026-01-15"`
 - `dateUpdated?` — ISO date of last update (optional)
 - `tags` — string array, e.g. `["hardware", "biomedical"]`
 - `links?` — `{ label: string; href: string }[]` — rendered as a resource list on the detail page
 - `status` — `"active" | "completed" | "paused"`
 
+## FieldNoteMetadata Schema
+
+Fields available in field note MDX frontmatter (`export const metadata = { ... }`), per `src/lib/get-field-notes.ts`:
+- `title` — note title
+- `description` — one-line summary (used in SEO + cards)
+- `date` — ISO date string for sorting, e.g. `"2026-01-15"`
+
+## Landmines
+
+- **Turbopack cannot compile a dynamic MDX import against an empty content directory.** `src/app/field-notes/[slug]/page.tsx` and `src/app/projects/[slug]/page.tsx` are currently stubs that call `notFound()` unconditionally because `src/content/field-notes/` and `src/content/projects/` are empty — see the NOTE comments in those files. When the first content file lands for either, restore the original dynamic MDX import + `generateMetadata` from that file's git history before writing real pages against it.
+
+## Deployment & Env
+
+- Repo is Vercel-linked (project `my-website`). Deploy flow: `npm run build` must pass locally first, then push/deploy per the `deploy-to-vercel` skill.
+- Env vars (see `.env.example` for names):
+  - `RESEND_API_KEY` — from the Resend dashboard
+  - `RESEND_AUDIENCE_ID` — from the Resend audience
+  - `NEXT_PUBLIC_SITE_URL` — production URL, needed for `metadataBase`; currently only set in the Vercel dashboard if at all. Unset locally, it falls back to `http://localhost:3000` (see `src/config/site.ts`).
+- To verify email capture end-to-end once the signup form exists: submit a test address through the form, then confirm the contact appears in the Resend audience.
+
 ## Current State
 
 **Full visual reset (July 2026).** All theming, components, and media were deliberately deleted to restart the design from scratch. What remains:
 
-- All six routes build and render as bare, unstyled HTML: `/`, `/newsletter`, `/field-notes`, `/field-notes/[slug]`, `/projects`, `/projects/[slug]`
+- All six routes build. Four render as bare, unstyled HTML: `/`, `/newsletter`, `/field-notes`, `/projects`. The two `[slug]` routes (`/field-notes/[slug]`, `/projects/[slug]`) render the not-found boundary: `generateStaticParams` returns `[]` and `dynamicParams` is `false` since their content dirs are empty (see Landmines)
 - Root layout has a plain text nav; no fonts, no color tokens, no favicons, no components
 - `src/content/` is empty — no placeholder MDX; index pages show an empty state
 - Email capture backend still wired (Resend client + `email-signup-action.ts`) but has no form UI — rebuild one on `/newsletter`

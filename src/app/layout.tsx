@@ -30,7 +30,7 @@ export default function RootLayout({
       <body>
         <nav>
           <Link href="/">Home</Link> ·{" "}
-          <Link href="/field-notes">Field Notes</Link> ·{" "}
+          <Link href="/articles">Articles</Link> ·{" "}
           <Link href="/projects">Projects</Link> ·{" "}
           <Link href="/newsletter">Newsletter</Link>
         </nav>

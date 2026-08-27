@@ -5,8 +5,8 @@
 ## Current state (as of 2026-08-27 ~22:30 UTC)
 
 - Post-visual-reset skeleton, redesign not started. All 6 routes build (`npm run build` green as of this timestamp: 6/6 static pages, Next.js 16.2.6 Turbopack, zero TS errors).
-- 4 routes render bare unstyled HTML: `/`, `/newsletter`, `/field-notes`, `/projects`. The 2 `[slug]` routes are deliberate `notFound()` stubs (empty content dirs; see landmine 1).
-- No components, no design tokens, no fonts, no favicon, no media. `src/components/` does not exist. `src/content/field-notes/` and `src/content/projects/` are empty.
+- 4 routes render bare unstyled HTML: `/`, `/newsletter`, `/articles`, `/projects`. The 2 `[slug]` routes are deliberate `notFound()` stubs (empty content dirs; see landmine 1).
+- No components, no design tokens, no fonts, no favicon, no media. `src/components/` does not exist. `src/content/articles/` and `src/content/projects/` are empty.
 - Email backend wired (Resend client + `email-signup-action.ts`) but there is NO form UI, so the site currently cannot capture an email.
 - Working tree clean at commit `2d85cf7` on `main`. Not yet pushed/redeployed since the reset; production Vercel deploy is from the pre-reset design.
 
@@ -23,7 +23,7 @@
 
 1. **Design direction** — owner wants to discuss before building; use `design-distinctive-frontend` + `design-ui-interfaces` skills. Nothing is decided yet: no palette, no fonts, no aesthetic. Do not start building components before this conversation happens.
 2. Rebuild email signup form UI on `/newsletter` wired to the existing Server Action (`src/app/email-signup-action.ts`), with success/error states. Verify end-to-end: test address submitted → contact visible in Resend audience.
-3. Homepage + newsletter copy, then 1–2 real field notes / project pages (restoring `[slug]` MDX rendering per landmine 1).
+3. Homepage + newsletter copy, then 1–2 real articles / project pages (restoring `[slug]` MDX rendering per landmine 1).
 4. Favicon/logo, sitemap, robots.txt, nav that fits the new design.
 
 ## Settled questions (do not re-litigate)
@@ -31,6 +31,7 @@
 - The July 2026 full visual reset was deliberate (`reset-visual-design` skill). Do not restore old components from git history except the `[slug]` MDX plumbing noted in landmine 1.
 - Supabase is deliberately not installed. Resend only.
 - Title separator is `|`, not an em dash. The no-dashes-in-copy rule (CLAUDE.md Voice & Tone) is enforced sitewide, titles included.
+- The Articles section was called "Field Notes" until 2026-08-27 (renamed at the owner's request). Git history before this rename uses field-notes paths, the old name is preserved there and in this note in case the owner ever wants it back.
 
 ## Where everything lives
 

@@ -8,7 +8,7 @@ A personal brand platform that turns social/search traffic into owned email subs
 
 - `/` — homepage: who I am, why to follow, path to email capture
 - `/newsletter` — dedicated email signup page (needs a rebuilt form UI)
-- `/field-notes` + `/field-notes/[slug]` — short essays/notes, MDX in `src/content/field-notes/`
+- `/articles` + `/articles/[slug]` — short essays/notes, MDX in `src/content/articles/`
 - `/projects` + `/projects/[slug]` — projects tracked in public, MDX in `src/content/projects/`
 
 All routes exist and build; markup is bare after the July 2026 visual reset.
@@ -18,13 +18,13 @@ All routes exist and build; markup is bare after the July 2026 visual reset.
 - [x] Next.js 16 + TypeScript + Tailwind v4 scaffold, deployed to Vercel with custom domain
 - [x] MDX pipeline (`@next/mdx`): dynamic slug pages, `generateStaticParams`, per-page metadata
 - [x] Resend client (`src/lib/resend.ts`) + email capture Server Action (`src/app/email-signup-action.ts`)
-- [x] Per-page `metadata` export on 4 of 6 routes (title, description, OG, Twitter) — the two `[slug]` stubs (`/field-notes/[slug]`, `/projects/[slug]`) lost their metadata export when they were stubbed out; restore it alongside the MDX import when content lands (see CLAUDE.md Landmines)
+- [x] Per-page `metadata` export on 4 of 6 routes (title, description, OG, Twitter) — the two `[slug]` stubs (`/articles/[slug]`, `/projects/[slug]`) lost their metadata export when they were stubbed out; restore it alongside the MDX import when content lands (see CLAUDE.md Landmines)
 
 ## To Build
 
 ### Content
 
-- [ ] Write real Field Notes (at least 1–2 to ship non-empty)
+- [ ] Write real Articles (at least 1–2 to ship non-empty)
 - [ ] Write real Project pages (at least 1–2)
 - [ ] Homepage copy: positioning statement, "early to an unfolding journey" feel
 - [ ] Newsletter page copy: what subscribers get, why join now

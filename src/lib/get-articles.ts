@@ -1,14 +1,14 @@
 import fs from "fs";
 import path from "path";
 
-export type FieldNoteMetadata = {
+export type ArticleMetadata = {
   title: string;
   description: string;
   date: string;
 };
 
-export function getFieldNoteSlugs(): string[] {
-  const dir = path.join(process.cwd(), "src/content/field-notes");
+export function getArticleSlugs(): string[] {
+  const dir = path.join(process.cwd(), "src/content/articles");
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)

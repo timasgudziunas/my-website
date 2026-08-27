@@ -8,6 +8,20 @@ const nextConfig: NextConfig = {
   devIndicators: {
     position: "bottom-right",
   },
+  async redirects() {
+    return [
+      {
+        source: "/field-notes",
+        destination: "/articles",
+        permanent: true,
+      },
+      {
+        source: "/field-notes/:slug",
+        destination: "/articles/:slug",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 const withMDX = createMDX({});

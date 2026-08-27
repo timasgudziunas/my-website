@@ -9,7 +9,7 @@ This is not a portfolio, resume site, or single product site.
 - Next.js 16 (App Router) + React 19
 - TypeScript
 - Tailwind CSS v4 (CSS first config, no `tailwind.config.js`)
-- MDX content layer for Field Notes and Projects (`src/content/`)
+- MDX content layer for Articles and Projects (`src/content/`)
 - Resend for email capture
 - Vercel for deployment
 

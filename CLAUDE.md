@@ -51,7 +51,7 @@ Before adding anything, ask: does this directly support email capture, trust, or
 
 - Next.js 16 (App Router) + React 19 — **has breaking changes from training data; consult `node_modules/next/dist/docs/` before assuming any API (see `AGENTS.md`, which duplicates this note for other tools; update both together)**
 - TypeScript
-- MDX (via `@next/mdx`) — content layer for Field Notes (articles) and Projects; files live in `src/content`
+- MDX (via `@next/mdx`) — content layer for Articles and Projects; files live in `src/content`
 - Tailwind CSS v4 — CSS-first config in `src/app/globals.css` via `@theme`; **no `tailwind.config.js`**
 - Vercel — deployment target
 - Resend — installed; client in `src/lib/resend.ts`, server action in `src/app/email-signup-action.ts` (transactional + broadcast email)
@@ -93,23 +93,23 @@ my-website/
     │   ├── email-signup-action.ts  # Resend server action — handles email list subscribe
     │   ├── newsletter/
     │   │   └── page.tsx        # /newsletter — email signup page (form UI to be rebuilt)
-    │   ├── field-notes/
-    │   │   ├── page.tsx        # Field Notes index
+    │   ├── articles/
+    │   │   ├── page.tsx        # Articles index
     │   │   └── [slug]/
-    │   │       └── page.tsx    # STUB: calls notFound() unconditionally (src/content/field-notes/ is empty, Turbopack can't compile the dynamic MDX import against zero files) — restore MDX rendering from git history when the first note lands
+    │   │       └── page.tsx    # STUB: calls notFound() unconditionally (src/content/articles/ is empty, Turbopack can't compile the dynamic MDX import against zero files) — restore MDX rendering from git history when the first article lands
     │   └── projects/
     │       ├── page.tsx        # Projects index
     │       └── [slug]/
     │           └── page.tsx    # STUB: calls notFound() unconditionally (src/content/projects/ is empty, same Turbopack constraint) — restore MDX rendering from git history when the first project lands
-    ├── content/                # MDX source files (one file per note/project, filename = slug) — empty after the reset
-    │   ├── field-notes/        # Field Notes — .mdx files, export metadata + default component
+    ├── content/                # MDX source files (one file per article/project, filename = slug) — empty after the reset
+    │   ├── articles/           # Articles — .mdx files, export metadata + default component
     │   └── projects/           # Projects — .mdx files, export metadata + default component
     ├── components/             # (removed in the reset — recreate when the new design starts)
     ├── config/                 # site-wide constants
     │   └── site.ts             # metadata, socialLinks, site-level config
     └── lib/                    # utilities + service clients
         ├── format-date.ts      # shared date formatting utility
-        ├── get-field-notes.ts  # FieldNoteMetadata type + getFieldNoteSlugs()
+        ├── get-articles.ts     # ArticleMetadata type + getArticleSlugs()
         ├── get-projects.ts     # ProjectMetadata type + getProjectSlugs()
         └── resend.ts           # Resend client
 (config: next.config.ts, eslint.config.mjs, postcss.config.mjs, tsconfig.json, package.json)
@@ -138,7 +138,7 @@ Every page must be indexable and shareable:
 - Per-page `metadata` export (title, description, OG/Twitter)
 - Clean, descriptive URLs
 - Ship as little JS as possible — favor Server Components and static rendering
-- Structured sections that future essays/field-notes can slot into
+- Structured sections that future essays/articles can slot into
 
 ## ProjectMetadata Schema
 
@@ -153,16 +153,18 @@ Fields available in project MDX frontmatter (`export const metadata = { ... }`):
 - `links?` — `{ label: string; href: string }[]` — rendered as a resource list on the detail page
 - `status` — `"active" | "completed" | "paused"`
 
-## FieldNoteMetadata Schema
+## ArticleMetadata Schema
 
-Fields available in field note MDX frontmatter (`export const metadata = { ... }`), per `src/lib/get-field-notes.ts`:
-- `title` — note title
+(Articles was named "Field Notes" until 2026-08-27; pre-rename git history uses field-notes paths.)
+
+Fields available in article MDX frontmatter (`export const metadata = { ... }`), per `src/lib/get-articles.ts`:
+- `title` — article title
 - `description` — one-line summary (used in SEO + cards)
 - `date` — ISO date string for sorting, e.g. `"2026-01-15"`
 
 ## Landmines
 
-- **Turbopack cannot compile a dynamic MDX import against an empty content directory.** `src/app/field-notes/[slug]/page.tsx` and `src/app/projects/[slug]/page.tsx` are currently stubs that call `notFound()` unconditionally because `src/content/field-notes/` and `src/content/projects/` are empty — see the NOTE comments in those files. When the first content file lands for either, restore the original dynamic MDX import + `generateMetadata` from that file's git history before writing real pages against it.
+- **Turbopack cannot compile a dynamic MDX import against an empty content directory.** `src/app/articles/[slug]/page.tsx` and `src/app/projects/[slug]/page.tsx` are currently stubs that call `notFound()` unconditionally because `src/content/articles/` and `src/content/projects/` are empty — see the NOTE comments in those files. When the first content file lands for either, restore the original dynamic MDX import + `generateMetadata` from that file's git history before writing real pages against it.
 
 ## Deployment & Env
 

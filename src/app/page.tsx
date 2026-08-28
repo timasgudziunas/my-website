@@ -47,17 +47,12 @@ const defaultPreviewImgUrl =
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col">
-      <div className="p-20 pb-0 max-md:p-5 max-md:pb-0">
-        <h1 className="text-2xl font-medium">Timas Gudziunas</h1>
-        <p className="mt-2 max-w-xl text-neutral-500">{description}</p>
-      </div>
-      <div className="flex flex-1 items-center">
-        <HomeLinkMenu
-          items={homeLinkMenuItems}
-          defaultImgUrl={defaultPreviewImgUrl}
-        />
-      </div>
+    <main className="flex min-h-screen items-center justify-center">
+      <h1 className="sr-only">Timas Gudziunas</h1>
+      <HomeLinkMenu
+        items={homeLinkMenuItems}
+        defaultImgUrl={defaultPreviewImgUrl}
+      />
     </main>
   );
 }

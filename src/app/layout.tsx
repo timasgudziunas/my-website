@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import SiteIntro from "@/components/SiteIntro";
@@ -30,12 +29,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <SiteIntro />
-        <nav>
-          <Link href="/">Home</Link> ·{" "}
-          <Link href="/articles">Articles</Link> ·{" "}
-          <Link href="/projects">Projects</Link> ·{" "}
-          <Link href="/newsletter">Newsletter</Link>
-        </nav>
         {children}
       </body>
     </html>

@@ -92,7 +92,7 @@ export default function HomeLinkMenu({
   return (
     <section
       ref={sectionRef}
-      className="flex h-full w-full items-center gap-16 p-20 max-md:p-5"
+      className="mx-auto flex h-full w-full max-w-4xl items-center gap-16 p-20 max-md:p-5"
     >
       <div className="flex-1">
         <ul className="flex flex-1 flex-col gap-6 text-5xl font-medium max-md:gap-2 max-md:text-3xl">
@@ -111,7 +111,7 @@ export default function HomeLinkMenu({
       </div>
       <div
         ref={previewContainerRef}
-        className="relative left-1/2 max-w-90 min-w-48 flex-2 rotate-15 [clip-path:polygon(0_0,100%_0,100%_100%,0%_100%)] max-md:max-w-64"
+        className="relative max-w-90 min-w-48 flex-2 rotate-15 [clip-path:polygon(0_0,100%_0,100%_100%,0%_100%)] max-md:max-w-64"
       >
         <img
           src={defaultImgUrl}

@@ -87,24 +87,29 @@ my-website/
 └── src/
     ├── mdx-components.tsx      # required by @next/mdx App Router — global MDX component overrides (empty for now)
     ├── app/                    # App Router: routes, layouts, route handlers
-    │   ├── layout.tsx          # root layout — global metadata template, plain nav links
-    │   ├── page.tsx            # homepage
+    │   ├── layout.tsx          # root layout — global metadata template + SiteIntro overlay, no nav
+    │   ├── page.tsx            # homepage — HomeLinkMenu only (no nav; the menu is the nav)
     │   ├── globals.css         # Tailwind v4 entry (no @theme tokens yet)
     │   ├── email-signup-action.ts  # Resend server action — handles email list subscribe
-    │   ├── newsletter/
-    │   │   └── page.tsx        # /newsletter — email signup page (form UI to be rebuilt)
-    │   ├── articles/
-    │   │   ├── page.tsx        # Articles index
-    │   │   └── [slug]/
-    │   │       └── page.tsx    # STUB: calls notFound() unconditionally (src/content/articles/ is empty, Turbopack can't compile the dynamic MDX import against zero files) — restore MDX rendering from git history when the first article lands
-    │   └── projects/
-    │       ├── page.tsx        # Projects index
-    │       └── [slug]/
-    │           └── page.tsx    # STUB: calls notFound() unconditionally (src/content/projects/ is empty, same Turbopack constraint) — restore MDX rendering from git history when the first project lands
+    │   └── (site)/             # route group: inner section pages, shares the plain nav
+    │       ├── layout.tsx      # nav links (Home · Articles · Projects · Newsletter)
+    │       ├── newsletter/
+    │       │   └── page.tsx    # /newsletter — email signup page (form UI to be rebuilt)
+    │       ├── articles/
+    │       │   ├── page.tsx    # Articles index
+    │       │   └── [slug]/
+    │       │       └── page.tsx    # STUB: calls notFound() unconditionally (src/content/articles/ is empty, Turbopack can't compile the dynamic MDX import against zero files) — restore MDX rendering from git history when the first article lands
+    │       └── projects/
+    │           ├── page.tsx    # Projects index
+    │           └── [slug]/
+    │               └── page.tsx    # STUB: calls notFound() unconditionally (src/content/projects/ is empty, same Turbopack constraint) — restore MDX rendering from git history when the first project lands
     ├── content/                # MDX source files (one file per article/project, filename = slug) — empty after the reset
     │   ├── articles/           # Articles — .mdx files, export metadata + default component
     │   └── projects/           # Projects — .mdx files, export metadata + default component
-    ├── components/             # (removed in the reset — recreate when the new design starts)
+    ├── components/             # React components (PascalCase, one per file)
+    │   ├── HomeLinkMenu.tsx    # homepage GSAP link-hover menu (adapted from 21st.dev)
+    │   ├── SiteIntro.tsx       # full-screen typewriter splash, once per session (sequence const inside)
+    │   └── TypewriterText.tsx  # typewriter effect w/ onComplete (adapted from 21st.dev)
     ├── config/                 # site-wide constants
     │   └── site.ts             # metadata, socialLinks, site-level config
     └── lib/                    # utilities + service clients

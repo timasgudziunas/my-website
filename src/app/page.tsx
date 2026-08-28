@@ -21,8 +21,6 @@ export const metadata: Metadata = {
   },
 };
 
-// NOTE: /about, /recommendations, and /contact don't exist yet — those
-// links 404 until their pages are built.
 const homeLinkMenuItems: HomeLinkMenuItem[] = [
   {
     title: "About me",
@@ -43,7 +41,7 @@ const homeLinkMenuItems: HomeLinkMenuItem[] = [
       "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80",
   },
   {
-    title: "Recommendations",
+    title: "Recs",
     href: "/recommendations",
     imgUrl:
       "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=400&q=80",

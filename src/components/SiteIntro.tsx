@@ -19,16 +19,16 @@ const SITE_INTRO_SEQUENCE: {
     { text: "I'm an engineer", backspaceTo: "I'm" },
     { text: "I'm a developer", backspaceTo: "I'm" },
     { text: "I'm a creator" },
-    { text: "Oh shoot, of course" },
+    { text: "Oh, of course" },
     { text: "I'm Timas" },
   ],
-  speed: 70,
-  deleteSpeed: 40,
-  delay: 1200,
+  speed: 35,
+  deleteSpeed: 20,
+  delay: 600,
 };
 
 const SESSION_STORAGE_KEY = "site-intro-seen";
-const POST_TYPE_HOLD_MS = 400;
+const POST_TYPE_HOLD_MS = 200;
 const FADE_DURATION_MS = 500;
 
 /**

@@ -88,7 +88,13 @@ my-website/
     ├── mdx-components.tsx      # required by @next/mdx App Router — global MDX component overrides (empty for now)
     ├── app/                    # App Router: routes, layouts, route handlers
     │   ├── layout.tsx          # root layout — global metadata template + SiteIntro overlay; site has NO nav bar (homepage HomeLinkMenu is the nav)
-    │   ├── page.tsx            # homepage — HomeLinkMenu only (About me / Articles / Projects / Recommendations / Contacts; /about, /recommendations, /contact 404 until built)
+    │   ├── page.tsx            # homepage — HomeLinkMenu only (About me / Articles / Projects / Recs / Contacts)
+    │   ├── about/
+    │   │   └── page.tsx        # /about — coming soon stub
+    │   ├── recommendations/
+    │   │   └── page.tsx        # /recommendations — coming soon stub (menu label "Recs")
+    │   ├── contact/
+    │   │   └── page.tsx        # /contact — coming soon stub
     │   ├── globals.css         # Tailwind v4 entry (no @theme tokens yet)
     │   ├── email-signup-action.ts  # Resend server action — handles email list subscribe
     │   ├── newsletter/

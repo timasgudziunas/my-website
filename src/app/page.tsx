@@ -59,7 +59,7 @@ const defaultPreviewImgUrl =
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen items-center justify-center">
+    <main className="flex h-dvh items-center justify-center overflow-hidden">
       <h1 className="sr-only">Timas Gudziunas</h1>
       <HomeLinkMenu
         items={homeLinkMenuItems}

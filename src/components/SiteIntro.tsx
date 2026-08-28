@@ -13,6 +13,7 @@ const SITE_INTRO_SEQUENCE: {
   speed: number;
   deleteSpeed: number;
   delay: number;
+  startDelay: number;
 } = {
   lines: [
     { text: "Hello" },
@@ -22,9 +23,10 @@ const SITE_INTRO_SEQUENCE: {
     { text: "Oh, of course" },
     { text: "I'm Timas" },
   ],
-  speed: 35,
-  deleteSpeed: 20,
-  delay: 600,
+  speed: 40,
+  deleteSpeed: 23,
+  delay: 685,
+  startDelay: 800,
 };
 
 const SESSION_STORAGE_KEY = "site-intro-seen";
@@ -115,6 +117,7 @@ export default function SiteIntro() {
         speed={SITE_INTRO_SEQUENCE.speed}
         deleteSpeed={SITE_INTRO_SEQUENCE.deleteSpeed}
         delay={SITE_INTRO_SEQUENCE.delay}
+        startDelay={SITE_INTRO_SEQUENCE.startDelay}
         loop={false}
         onComplete={handleTypewriterComplete}
         className="text-3xl font-medium md:text-4xl"

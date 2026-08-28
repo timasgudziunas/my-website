@@ -21,13 +21,16 @@ export interface TypewriterTextProps {
   loop?: boolean;
   deleteSpeed?: number;
   delay?: number;
+  /** Pause in ms before the first character types. The cursor blinks
+   * alone during it. Default 0 (start immediately). */
+  startDelay?: number;
   className?: string;
   /** Fires once after the final line finishes typing and its hold delay
    * elapses. Never fires when `loop` is true (the sequence never ends). */
   onComplete?: () => void;
 }
 
-type Phase = "typing" | "deleting" | "done";
+type Phase = "idle" | "typing" | "deleting" | "done";
 
 /**
  * Adapted from a 21st.dev reference Typewriter component. Changes over
@@ -52,6 +55,7 @@ export default function TypewriterText({
   loop = false,
   deleteSpeed = 50,
   delay = 1500,
+  startDelay = 0,
   className,
   onComplete,
 }: TypewriterTextProps) {
@@ -61,7 +65,9 @@ export default function TypewriterText({
 
   const [lineIndex, setLineIndex] = useState(0);
   const [charCount, setCharCount] = useState(0);
-  const [phase, setPhase] = useState<Phase>("typing");
+  const [phase, setPhase] = useState<Phase>(
+    startDelay > 0 ? "idle" : "typing"
+  );
 
   // Kept in a ref so the effect below doesn't need onComplete in its
   // dependency array (an inline arrow prop would otherwise re-trigger it).
@@ -89,7 +95,11 @@ export default function TypewriterText({
 
     let timeoutId: ReturnType<typeof setTimeout>;
 
-    if (phase === "typing") {
+    if (phase === "idle") {
+      timeoutId = setTimeout(() => {
+        setPhase("typing");
+      }, startDelay);
+    } else if (phase === "typing") {
       if (charCount < currentText.length) {
         timeoutId = setTimeout(() => {
           setCharCount((count) => count + 1);
@@ -130,6 +140,7 @@ export default function TypewriterText({
     speed,
     deleteSpeed,
     delay,
+    startDelay,
     deleteFloor,
     lines.length,
   ]);

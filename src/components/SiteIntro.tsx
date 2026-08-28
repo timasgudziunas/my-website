@@ -1,16 +1,27 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import TypewriterText from "@/components/TypewriterText";
+import TypewriterText, {
+  type TypewriterLine,
+} from "@/components/TypewriterText";
 
-/** Copy and timing for the intro sequence. Edit this to change what plays. */
+/** Copy and timing for the intro sequence. Edit this to change what plays.
+ * `backspaceTo` keeps that prefix on screen while backspacing, and the next
+ * line types over it. Lines without it backspace everything. */
 const SITE_INTRO_SEQUENCE: {
-  lines: string[];
+  lines: TypewriterLine[];
   speed: number;
   deleteSpeed: number;
   delay: number;
 } = {
-  lines: ["Timas Gudziunas", "Documenting the journey."],
+  lines: [
+    { text: "Hello" },
+    { text: "I'm an engineer", backspaceTo: "I'm" },
+    { text: "I'm a developer", backspaceTo: "I'm" },
+    { text: "I'm a creator" },
+    { text: "Oh shoot, of course" },
+    { text: "I'm Timas" },
+  ],
   speed: 70,
   deleteSpeed: 40,
   delay: 1200,

@@ -2,8 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 
+export type TypewriterLine = {
+  text: string;
+  /**
+   * After this line finishes typing and holds, backspace only down to this
+   * prefix (instead of deleting everything) before the next line types over
+   * it. The next line must start with this prefix; if it doesn't, the whole
+   * line is deleted as usual. Ignored on the final line of a non-looping
+   * sequence (that line never deletes).
+   */
+  backspaceTo?: string;
+};
+
 export interface TypewriterTextProps {
-  text: string | string[];
+  text: string | string[] | TypewriterLine[];
   speed?: number;
   cursor?: string;
   loop?: boolean;
@@ -18,7 +30,7 @@ export interface TypewriterTextProps {
 type Phase = "typing" | "deleting" | "done";
 
 /**
- * Adapted from a 21st.dev reference Typewriter component. Two fixes over
+ * Adapted from a 21st.dev reference Typewriter component. Changes over
  * the reference:
  * - Text is derived from `currentText.slice(0, charCount)` instead of
  *   appended into a separate `displayText` state, which under React 19
@@ -29,6 +41,9 @@ type Phase = "typing" | "deleting" | "done";
  *   the next line in turn; the final line is left on screen (no delete)
  *   and `onComplete` fires once after it finishes typing plus one `delay`
  *   hold.
+ * - Lines can be `{ text, backspaceTo }` objects: `backspaceTo` keeps a
+ *   prefix on screen while backspacing, so the next line types over it
+ *   ("I'm an engineer" backspaces to "I'm", then types " a developer").
  */
 export default function TypewriterText({
   text,
@@ -40,7 +55,9 @@ export default function TypewriterText({
   className,
   onComplete,
 }: TypewriterTextProps) {
-  const textArray = Array.isArray(text) ? text : [text];
+  const lines: TypewriterLine[] = Array.isArray(text)
+    ? text.map((line) => (typeof line === "string" ? { text: line } : line))
+    : [{ text }];
 
   const [lineIndex, setLineIndex] = useState(0);
   const [charCount, setCharCount] = useState(0);
@@ -54,8 +71,18 @@ export default function TypewriterText({
     onCompleteRef.current = onComplete;
   }, [onComplete]);
 
-  const currentText = textArray[lineIndex] ?? "";
-  const isLastLine = lineIndex === textArray.length - 1;
+  const currentLine = lines[lineIndex] ?? { text: "" };
+  const currentText = currentLine.text;
+  const isLastLine = lineIndex === lines.length - 1;
+
+  // How far deleting backspaces before the next line takes over: down to
+  // the kept prefix if the next line actually starts with it, else to 0.
+  const nextText = lines[(lineIndex + 1) % lines.length]?.text ?? "";
+  const keptPrefix =
+    currentLine.backspaceTo && nextText.startsWith(currentLine.backspaceTo)
+      ? currentLine.backspaceTo
+      : "";
+  const deleteFloor = keptPrefix.length;
 
   useEffect(() => {
     if (phase === "done") return;
@@ -79,13 +106,15 @@ export default function TypewriterText({
       }
     } else {
       // phase === "deleting"
-      if (charCount > 0) {
+      if (charCount > deleteFloor) {
         timeoutId = setTimeout(() => {
           setCharCount((count) => count - 1);
         }, deleteSpeed);
       } else {
+        // charCount now equals the kept-prefix length (0 when nothing is
+        // kept); the next line starts typing from there, over the prefix.
         timeoutId = setTimeout(() => {
-          setLineIndex((index) => (index + 1) % textArray.length);
+          setLineIndex((index) => (index + 1) % lines.length);
           setPhase("typing");
         }, 0);
       }
@@ -101,7 +130,8 @@ export default function TypewriterText({
     speed,
     deleteSpeed,
     delay,
-    textArray.length,
+    deleteFloor,
+    lines.length,
   ]);
 
   const displayText = currentText.slice(0, charCount);
